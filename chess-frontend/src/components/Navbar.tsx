@@ -26,7 +26,7 @@ export function Navbar() {
               href="/join"
               className="px-6 py-2 rounded-md cursor-pointer hover:bg-default-100"
             >
-              Login
+              Join
             </a>
           </li>
           <li>
