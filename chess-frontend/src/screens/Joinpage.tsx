@@ -1,12 +1,12 @@
-import { Input, Tab, Tabs } from "@nextui-org/react";
+import { Button, Input, Tab, Tabs } from "@nextui-org/react";
 import { Image } from "@nextui-org/react";
 export function Join() {
-  const tabContainer = "flex flex-col gap-6 h-[300px] border mt-8";
+  const tabContainer = "flex flex-col gap-6 h-[350px] mt-8";
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="grid grid-cols-2 gap-6">
         <main className="flex rounded-lg justify-center items-center">
-          <div className="w-full">
+          <div className="w-full max-w-[500px]">
             <Tabs
               aria-label="Options"
               size={"lg"}
@@ -14,6 +14,12 @@ export function Join() {
             >
               <Tab key="signup" title="Sign Up" className="w-full px-8">
                 <div className={tabContainer}>
+                  <div className="flex flex-col gap-1">
+                    <h2 className="text-3xl text-center">Welcome</h2>
+                    <p className="text-center text-sm text-default-400">
+                      Welcome,Please enter your details to sing up
+                    </p>
+                  </div>
                   <Input
                     isRequired
                     type="text"
@@ -37,6 +43,12 @@ export function Join() {
               </Tab>
               <Tab key="signin" title="Sign In" className="px-8">
                 <div className={tabContainer}>
+                  <div className="flex flex-col gap-1">
+                    <h2 className="text-3xl text-center">Welcome back</h2>
+                    <p className="text-center text-sm text-default-400">
+                      Welcome back,Please enter your details to sing in
+                    </p>
+                  </div>
                   <Input
                     isRequired
                     type="text"
@@ -53,6 +65,9 @@ export function Join() {
                 </div>
               </Tab>
             </Tabs>
+            <Button color="primary" className="w-full py-6 text-lg">
+              Continue 👋
+            </Button>
           </div>
         </main>
         <main className="min-h-[700px] rounded-lg">
