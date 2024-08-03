@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         themes={["dark", "light"]}
       >
         <Navbar />
-        {children}
+        <main className="container mx-auto mt-1">{children}</main>
       </NextThemesProvider>
     </NextUIProvider>
   );

@@ -17,33 +17,35 @@ export function Navbar() {
     e ? setTheme("dark") : setTheme("light");
   };
   return (
-    <nav className="flex justify-between container mx-auto py-4">
-      <p className="elsie-regular text-2xl">Chessmate</p>
-      <ul className="flex items-center gap-3">
-        <li>
-          <a
-            href="/join"
-            className="px-6 rounded-md py-2 cursor-pointer hover:bg-default-100"
-          >
-            Login
-          </a>
-        </li>
-        <li>
-          <Switch
-            defaultSelected={theme === "dark" ? true : false}
-            size="md"
-            color="success"
-            onValueChange={onChangeHandler}
-            thumbIcon={({ isSelected, className }) =>
-              isSelected ? (
-                <MoonIcon className={className} />
-              ) : (
-                <SunIcon className={className} />
-              )
-            }
-          />
-        </li>
-      </ul>
-    </nav>
+    <header className="py-4 border-b border-default-200">
+      <nav className="container mx-auto flex justify-between items-center">
+        <p className="elsie-regular text-2xl">Chessmate 👋</p>
+        <ul className="flex items-center gap-3">
+          <li>
+            <a
+              href="/join"
+              className="px-6 py-2 rounded-md cursor-pointer hover:bg-default-100"
+            >
+              Login
+            </a>
+          </li>
+          <li>
+            <Switch
+              defaultSelected={theme === "dark"}
+              size="md"
+              color="success"
+              onValueChange={onChangeHandler}
+              thumbIcon={({ isSelected, className }) =>
+                isSelected ? (
+                  <MoonIcon className={className} />
+                ) : (
+                  <SunIcon className={className} />
+                )
+              }
+            />
+          </li>
+        </ul>
+      </nav>
+    </header>
   );
 }
