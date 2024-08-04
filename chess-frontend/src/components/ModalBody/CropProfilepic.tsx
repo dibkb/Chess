@@ -1,4 +1,4 @@
-import { ModalBody } from "@nextui-org/react";
+import { ModalBody, Slider } from "@nextui-org/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import getCroppedImg from "../../utils/get-cropped-image.ts";
 import Cropper, { Area, Point } from "react-easy-crop";
@@ -17,12 +17,11 @@ function CropProfilepic({ imageUrl, setImageCropUrl }: CropProfilepic) {
     }
   };
   return (
-    <ModalBody className="flex flex-col">
+    <ModalBody className="flex flex-col justify-center items-center">
       <div
         style={{
           ...styles.container,
         }}
-        className="h-[250px]"
       >
         <Cropper
           image={imageUrl}
@@ -34,6 +33,17 @@ function CropProfilepic({ imageUrl, setImageCropUrl }: CropProfilepic) {
           onZoomChange={setZoom}
         />
       </div>
+      <Slider
+        size="sm"
+        step={0.01}
+        maxValue={10}
+        minValue={1}
+        aria-label="Temperature"
+        defaultValue={1}
+        onChange={(e) => {
+          if (typeof e === "number") setZoom(e);
+        }}
+      />
     </ModalBody>
   );
 }

@@ -18,7 +18,6 @@ export function Join() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [imageCropUrl, setImageCropUrl] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>();
-  const [cropImage, setCropImage] = useState<boolean>(false);
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -27,7 +26,6 @@ export function Join() {
         const reader = new FileReader();
         reader.onloadend = () => {
           if (typeof reader.result === "string") setImageUrl(reader.result);
-          setCropImage(true);
           onOpen();
         };
         reader.readAsDataURL(file);
@@ -60,6 +58,7 @@ export function Join() {
                     hidden
                     onChange={(e) => handleFileChange(e)}
                   />
+
                   <label
                     htmlFor={`user-image`}
                     className="flex flex-col items-center gap-2 cursor-pointer"
@@ -68,11 +67,7 @@ export function Join() {
                       <Avatar
                         className="w-20 h-20 cursor-pointer"
                         radius="lg"
-                        src={
-                          imageCropUrl.length && !cropImage
-                            ? imageCropUrl
-                            : imageUrl
-                        }
+                        src={imageCropUrl.length ? imageCropUrl : imageUrl}
                       />
                     ) : (
                       <Avatar
@@ -110,6 +105,7 @@ export function Join() {
                 onOpenChange={onOpenChange}
                 backdrop="blur"
                 isDismissable={false}
+                size="xl"
               >
                 <ModalContent>
                   {(onClose) => (
@@ -123,7 +119,7 @@ export function Join() {
                       />
                       <ModalFooter>
                         <Button
-                          color="danger"
+                          color="primary"
                           variant="light"
                           onPress={onClose}
                         >
