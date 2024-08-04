@@ -1,6 +1,40 @@
-import { Avatar, Button, Input, Tab, Tabs } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Tab,
+  Tabs,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useState } from "react";
 export function Join() {
   const tabContainer = "flex flex-col gap-6 h-[450px] mt-8";
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [imageCropUrl, setImageCropUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [cropImage, setCropImage] = useState<boolean>(false);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const file = files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === "string") setImageUrl(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setCropImage(true);
+        onOpen();
+      } else {
+        // TODO : error state
+      }
+    }
+  };
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="flex rounded-lg justify-center items-center min-w-[600px]">
@@ -19,13 +53,37 @@ export function Join() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 justify-center items-center">
-                  <Avatar
-                    size="lg"
-                    isBordered
-                    radius="lg"
-                    src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+                  <input
+                    type="file"
+                    id={`user-image`}
+                    hidden
+                    onChange={(e) => handleFileChange(e)}
                   />
-                  <p className="text-default-400 text-xs">Choose profile pic</p>
+                  <label
+                    htmlFor={`user-image`}
+                    className="flex flex-col items-center gap-2 cursor-pointer"
+                  >
+                    {imageCropUrl || imageUrl ? (
+                      <Avatar
+                        className="w-20 h-20 cursor-pointer"
+                        radius="lg"
+                        src={
+                          imageCropUrl.length && !cropImage
+                            ? imageCropUrl
+                            : imageUrl
+                        }
+                      />
+                    ) : (
+                      <Avatar
+                        className="w-20 h-20 cursor-pointer"
+                        src=""
+                        radius="lg"
+                      />
+                    )}
+                    <p className="text-default-400 text-center text-xs">
+                      Choose profile pic
+                    </p>
+                  </label>
                 </div>
                 <Input
                   isRequired
@@ -47,6 +105,39 @@ export function Join() {
                   className="max-w-full"
                 />
               </div>
+              <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                backdrop="blur"
+                isDismissable={false}
+              >
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        Crop Profile Pic
+                      </ModalHeader>
+                      <ModalBody>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Nullam pulvinar risus non risus hendrerit
+                          venenatis. Pellentesque sit amet hendrerit risus, sed
+                          porttitor quam.
+                        </p>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button
+                          color="danger"
+                          variant="light"
+                          onPress={onClose}
+                        >
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
             </Tab>
             <Tab key="signin" title="Sign In" className="px-8">
               <div className={tabContainer}>
