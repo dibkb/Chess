@@ -3,7 +3,6 @@ import {
   Button,
   Input,
   Modal,
-  ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -63,19 +62,14 @@ export function Join() {
                     htmlFor={`user-image`}
                     className="flex flex-col items-center gap-2 cursor-pointer"
                   >
-                    {imageCropUrl || imageUrl ? (
-                      <Avatar
-                        className="w-20 h-20 cursor-pointer"
-                        radius="lg"
-                        src={imageCropUrl.length ? imageCropUrl : imageUrl}
-                      />
-                    ) : (
-                      <Avatar
-                        className="w-20 h-20 cursor-pointer"
-                        src=""
-                        radius="lg"
-                      />
-                    )}
+                    <Avatar
+                      className="w-24 h-24 cursor-pointer"
+                      radius="lg"
+                      isBordered
+                      showFallback
+                      src={imageCropUrl || imageUrl}
+                    />
+
                     <p className="text-default-400 text-center text-xs">
                       Choose profile pic
                     </p>
