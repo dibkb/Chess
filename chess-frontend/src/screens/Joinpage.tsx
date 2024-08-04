@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useState } from "react";
+import CropProfilepic from "../components/ModalBody/CropProfilepic";
 export function Join() {
   const tabContainer = "flex flex-col gap-6 h-[450px] mt-8";
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -26,10 +27,10 @@ export function Join() {
         const reader = new FileReader();
         reader.onloadend = () => {
           if (typeof reader.result === "string") setImageUrl(reader.result);
+          setCropImage(true);
+          onOpen();
         };
         reader.readAsDataURL(file);
-        setCropImage(true);
-        onOpen();
       } else {
         // TODO : error state
       }
@@ -89,7 +90,6 @@ export function Join() {
                   isRequired
                   type="text"
                   label="Username"
-                  defaultValue="junior@nextui.org"
                   className="max-w-full"
                 />
                 <Input
@@ -117,21 +117,17 @@ export function Join() {
                       <ModalHeader className="flex flex-col gap-1">
                         Crop Profile Pic
                       </ModalHeader>
-                      <ModalBody>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Nullam pulvinar risus non risus hendrerit
-                          venenatis. Pellentesque sit amet hendrerit risus, sed
-                          porttitor quam.
-                        </p>
-                      </ModalBody>
+                      <CropProfilepic
+                        imageUrl={imageUrl || ""}
+                        setImageCropUrl={setImageCropUrl}
+                      />
                       <ModalFooter>
                         <Button
                           color="danger"
                           variant="light"
                           onPress={onClose}
                         >
-                          Close
+                          Done
                         </Button>
                       </ModalFooter>
                     </>
