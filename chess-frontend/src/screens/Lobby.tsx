@@ -6,7 +6,7 @@ export default function Lobby() {
   return (
     <div className="mt-4 flex flex-col gap-8">
       <div className="flex items-center gap-4 justify-between">
-        <div className="cutive text-lg flex items-center gap-2">
+        <div className="cutive text-xl font-medium flex items-center gap-2">
           <span className="inline-block h-3 w-3 rounded-full bg-lime-500"></span>
           <span>14 Players Online</span>
         </div>
@@ -24,7 +24,7 @@ export default function Lobby() {
           type="search"
         />
       </div>
-      <main className="flex flex-wrap gap-4">
+      <main className="grid gap-6 grid-fit">
         {[...new Array(14)].map((_, idx) => (
           <Playercard key={idx} />
         ))}
