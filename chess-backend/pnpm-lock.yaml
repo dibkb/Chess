@@ -20,6 +20,9 @@ importers:
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
@@ -580,6 +583,9 @@ packages:
       utf-8-validate:
         optional: true
 
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
 snapshots:
 
   '@esbuild/aix-ppc64@0.21.5':
@@ -1123,3 +1129,5 @@ snapshots:
   vary@1.1.2: {}
 
   ws@8.17.1: {}
+
+  zod@3.23.8: {}
