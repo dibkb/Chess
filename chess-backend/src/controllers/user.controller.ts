@@ -1,33 +1,73 @@
 import { Request, Response, NextFunction } from "express";
-import { type SignUpBody, signUpSchema } from "../zod";
-import { z } from "zod";
+import {
+  type SignUpBody,
+  type SignInBody,
+  signUpSchema,
+  signInSchema,
+  handleZodParsingError,
+} from "../zod";
 import { prisma } from "..";
+import { comparePassword, getHash } from "../service/bcrypt";
+import { getUserByUsername } from "../service/user.service";
 
+// signup-user
 const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validatedBody: SignUpBody = signUpSchema.parse(req.body);
     const { username, password, profilePic } = validatedBody;
-    await prisma.user.create({
+    const existingUser = await getUserByUsername(username);
+    if (existingUser) {
+      return res.status(409).json({ message: "username already exits" });
+    }
+    const hash = getHash(password);
+    const newUser = await prisma.user.create({
       data: {
         username,
-        password,
+        password: hash,
         ...(profilePic && { profilePic }),
       },
     });
     return res.status(201).json({
       message: "account successfully signed in",
+      newUser,
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({
-        message: "invalid input",
-        errors: error.errors.map((e) => ({
-          field: e.path[0],
-          message: e.message,
-        })),
-      });
-    }
+    handleZodParsingError(error, res);
     next(error);
   }
 };
-export { signUpUser };
+
+//signin user
+const signInUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username, password } = signInSchema.parse(req.body);
+
+    const user = await getUserByUsername(username);
+
+    if (!user) {
+      return res.status(401).json({ message: "invalid username" });
+    }
+
+    const isPasswordValid = comparePassword({
+      hash: user.password,
+      unhash: password,
+    });
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "invalid password" });
+    }
+
+    // JWT login logic should go here
+    return res.status(200).json({
+      message: "successfully logged in",
+      user: {
+        id: user.id,
+        username: user.username,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (err) {
+    handleZodParsingError(err, res);
+    next(err);
+  }
+};
+export { signUpUser, signInUser };
