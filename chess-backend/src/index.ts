@@ -1,4 +1,5 @@
 import express from "express";
+import { PrismaClient } from "@prisma/client";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import { router } from "./routes";
@@ -17,4 +18,16 @@ app.get("/test", (req, res) => {
 app.use("/api", router);
 const expressServer = app.listen(PORT, () => {
   console.log(`Server running on ${PORT} 🚀`);
+});
+// prisma client
+export const prisma = new PrismaClient();
+
+process.on("SIGINT", async () => {
+  console.log("Closing Prisma Client connection");
+  await prisma.$disconnect();
+  console.log("Prisma Client connection closed");
+  expressServer.close(() => {
+    console.log("Server shut down gracefully");
+    process.exit(0);
+  });
 });

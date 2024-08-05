@@ -1,12 +1,19 @@
 import { Request, Response, NextFunction } from "express";
 import { type SignUpBody, signUpSchema } from "../zod";
 import { z } from "zod";
+import { prisma } from "..";
 
-const signUpUser = (req: Request, res: Response, next: NextFunction) => {
+const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validatedBody: SignUpBody = signUpSchema.parse(req.body);
     const { username, password, profilePic } = validatedBody;
-    console.log(username, password, profilePic);
+    await prisma.user.create({
+      data: {
+        username,
+        password,
+        ...(profilePic && { profilePic }),
+      },
+    });
     return res.status(201).json({
       message: "account successfully signed in",
     });
