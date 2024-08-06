@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { Types } from "../types";
 import {
   type SignUpBody,
   type SignInBody,
@@ -56,12 +57,12 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "invalid password" });
     }
-    // JWT login logic should go here
+    // JWT login logic
     const token = makeToken({
       id: user.id,
       username: user.username,
     });
-    res.cookie("chessmate__accesstoken", token, {
+    res.cookie(Types.ACCESS_TOKEN, token, {
       maxAge: 60 * 60 * 24 * 3,
     });
     return res.status(200).json({
