@@ -9,6 +9,7 @@ import {
 import { prisma } from "..";
 import { comparePassword, getHash } from "../service/bcrypt";
 import { getUserByUsername } from "../service/user.service";
+import { makeToken } from "../service/jwt";
 
 // signup-user
 const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -56,6 +57,13 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).json({ message: "invalid password" });
     }
     // JWT login logic should go here
+    const token = makeToken({
+      id: user.id,
+      username: user.username,
+    });
+    res.cookie("chessmate__accesstoken", token, {
+      maxAge: 60 * 60 * 24 * 3,
+    });
     return res.status(200).json({
       message: "successfully logged in",
       user: {
