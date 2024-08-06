@@ -40,7 +40,7 @@ const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
 //signin user
 const signInUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password } = signInSchema.parse(req.body);
+    const { username, password }: SignInBody = signInSchema.parse(req.body);
 
     const user = await getUserByUsername(username);
 
@@ -55,7 +55,6 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "invalid password" });
     }
-
     // JWT login logic should go here
     return res.status(200).json({
       message: "successfully logged in",
