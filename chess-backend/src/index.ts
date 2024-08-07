@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import helmet from "helmet";
 import bodyParser from "body-parser";
@@ -7,6 +8,7 @@ const PORT = 3000;
 
 const app = express();
 // default middlewares
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

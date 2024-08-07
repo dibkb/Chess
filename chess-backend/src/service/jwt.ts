@@ -9,7 +9,7 @@ type MakeToken = Omit<
   "password" | "profilePic" | "createdAt" | "updatedAt"
 >;
 const makeToken = (payload: MakeToken) => {
-  const token = jwt.sign(payload, ENCRYPTION_KEY);
+  const token = jwt.sign(payload, ENCRYPTION_KEY, { expiresIn: "3d" });
   return token;
 };
 export { makeToken };

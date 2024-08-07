@@ -19,7 +19,7 @@ const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, profilePic } = validatedBody;
     const existingUser = await getUserByUsername(username);
     if (existingUser) {
-      return res.status(409).json({ message: "username already exits" });
+      return res.status(409).json("Username already exits");
     }
     const hash = getHash(password);
     const newUser = await prisma.user.create({
@@ -30,8 +30,14 @@ const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
       },
     });
     return res.status(201).json({
-      message: "account successfully signed in",
-      newUser,
+      message: "Account successfully signed in",
+      payload: {
+        user: {
+          id: newUser.id,
+          username: newUser.username,
+          profilePic: newUser.profilePic,
+        },
+      },
     });
   } catch (error) {
     handleZodParsingError(error, res);
@@ -47,7 +53,7 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUserByUsername(username);
 
     if (!user) {
-      return res.status(401).json({ message: "invalid username" });
+      return res.status(401).json({ message: "Username does not exist" });
     }
 
     const isPasswordValid = comparePassword({
@@ -55,22 +61,22 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
       unhash: password,
     });
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "invalid password" });
+      return res.status(401).json({ message: "Invalid password" });
     }
     // JWT login logic
     const token = makeToken({
       id: user.id,
       username: user.username,
     });
-    res.cookie(Types.ACCESS_TOKEN, token, {
-      maxAge: 60 * 60 * 24 * 3,
-    });
     return res.status(200).json({
-      message: "successfully logged in",
-      user: {
-        id: user.id,
-        username: user.username,
-        profilePic: user.profilePic,
+      message: "Successfully logged in",
+      payload: {
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          profilePic: user.profilePic,
+        },
       },
     });
   } catch (err) {

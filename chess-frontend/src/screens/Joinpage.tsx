@@ -2,8 +2,6 @@ import {
   Button,
   Modal,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   Tab,
   Tabs,
   useDisclosure,
@@ -12,12 +10,14 @@ import Signup from "../components/Signup";
 import Signin from "../components/Signin";
 import { type MouseEvent, useState } from "react";
 import { pageType, type SignInBody, type SignUpBody } from "../types/join";
-import { singUser } from "../utils/sign";
 import { signUpSchema } from "../schemas/zod";
-import { ExclamationIcon } from "../svg/ExclamationIcon";
+import { axiosInstance } from "../api/apiInstance";
+import { AxiosError } from "axios";
+import { SignModal } from "../components/ModalBody/SignModal";
 export function Join() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [parsingErrors, setParsingErrors] = useState<string[]>();
+  const [errorModalContent, setErrorModalContent] =
+    useState<ErrorModalContent>();
   const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
   const [signUpBody, setSignUpBody] = useState<SignUpBody>({
     username: "",
@@ -29,7 +29,7 @@ export function Join() {
     password: "",
   });
   const [page, setPage] = useState<pageType>("signup");
-  function onSubmitHandler(e: MouseEvent<HTMLButtonElement>) {
+  async function onSubmitHandler(e: MouseEvent<HTMLButtonElement>) {
     {
       e.preventDefault();
       // zod parsing
@@ -37,19 +37,47 @@ export function Join() {
         case "signup":
           const result = signUpSchema.safeParse(signUpBody);
           if (!result.success) {
-            setParsingErrors(result.error.errors.map((e) => e.message));
+            // -----------------------------ERROR HANDLING------------------------------
+            setErrorModalContent({
+              header: "Invalid Input",
+              data: (
+                <>
+                  {result.error.errors.map((e) => (
+                    <p key={e.message}>{e.message}</p>
+                  ))}
+                </>
+              ),
+            });
             onOpen();
           } else {
+            // api request to sign up
+            try {
+              const response = (await axiosInstance.post("/signup", signUpBody))
+                .data;
+              console.log(response);
+            } catch (error) {
+              const err = error as AxiosError;
+              // -----------------------------ERROR HANDLING------------------------------
+              console.log(err.response?.data);
+              setErrorModalContent({
+                // header: "Invalid Input",
+                data: (
+                  <>
+                    <p>
+                      {err.response?.data
+                        ? String(err.response?.data)
+                        : "An unexpected error occurred"}
+                    </p>
+                  </>
+                ),
+              });
+              onOpen();
+            }
           }
           break;
         case "signin":
           break;
       }
-      // api call
-      // singUser({
-      //   type: page,
-      //   body: page === "signin" ? singInBody : signUpBody,
-      // });
     }
   }
   return (
@@ -87,7 +115,8 @@ export function Join() {
           </Button>
         </div>
       </main>
-      {parsingErrors?.length && (
+      {/* Modal to show input errors */}
+      {errorModalContent && (
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -97,24 +126,15 @@ export function Join() {
         >
           <ModalContent>
             {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  Invaid Input
-                </ModalHeader>
-                <main className="flex flex-col gap-4 items-center justify-center">
-                  <ExclamationIcon className="size-9 text-red-500" />
-                  <div className="text-sm flex flex-col gap-2 text-center text-red-500">
-                    {parsingErrors.map((mes) => (
-                      <p key={mes}>{mes}</p>
-                    ))}
-                  </div>
-                </main>
-                <ModalFooter>
-                  <Button color="primary" variant="light" onPress={onClose}>
-                    Okay
-                  </Button>
-                </ModalFooter>
-              </>
+              <SignModal
+                header={errorModalContent.header}
+                onCloseCb={() => {
+                  errorModalContent.onCloseCallBack?.();
+                  onClose();
+                }}
+              >
+                {errorModalContent.data}
+              </SignModal>
             )}
           </ModalContent>
         </Modal>
@@ -122,5 +142,8 @@ export function Join() {
     </section>
   );
 }
-
-// Types
+interface ErrorModalContent {
+  header?: string;
+  data: React.ReactNode;
+  onCloseCallBack?: () => void;
+}
