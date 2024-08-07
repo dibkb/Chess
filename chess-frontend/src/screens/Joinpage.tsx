@@ -14,6 +14,8 @@ import { pageType, SignInBody, SignUpBody } from "../types/join";
 import { signInSchema, signUpSchema } from "../schemas/zod";
 import { axiosInstance } from "../api/apiInstance";
 import { AxiosError } from "axios";
+import { useAuthStore } from "../store/auth";
+import { User } from "../types/zustand";
 
 interface ModalContent {
   type: "success" | "failure";
@@ -23,6 +25,7 @@ interface ModalContent {
 }
 
 export function Join() {
+  const { setToken, setUser } = useAuthStore((state) => state);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalContent, setModalContent] = useState<ModalContent | null>(null);
   const [page, setPage] = useState<pageType>("signup");
@@ -93,6 +96,9 @@ export function Join() {
       });
       onOpen();
     } else {
+      const { token, user }: { token: string; user: User } = response.payload;
+      setUser(user);
+      setToken(token);
       // Handle sign-in success (e.g., set token and redirect)
     }
   };
