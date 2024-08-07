@@ -16,8 +16,7 @@ import { AxiosError } from "axios";
 import { SignModal } from "../components/ModalBody/SignModal";
 export function Join() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [errorModalContent, setErrorModalContent] =
-    useState<ErrorModalContent>();
+  const [modalContent, setModalContent] = useState<ModalContent>();
   const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
   const [signUpBody, setSignUpBody] = useState<SignUpBody>({
     username: "",
@@ -38,7 +37,8 @@ export function Join() {
           const result = signUpSchema.safeParse(signUpBody);
           if (!result.success) {
             // -----------------------------ERROR HANDLING------------------------------
-            setErrorModalContent({
+            setModalContent({
+              type: "failure",
               header: "Invalid Input",
               data: (
                 <>
@@ -54,13 +54,33 @@ export function Join() {
             try {
               const response = (await axiosInstance.post("/signup", signUpBody))
                 .data;
-              console.log(response);
+              // ----------------------------- HANDLE SUCCESS -----------------------------
+              setModalContent({
+                type: "success",
+                data: (
+                  <>
+                    <p>
+                      Account successfully signed up for{" "}
+                      {response?.payload.user.username}.
+                    </p>
+                    <p>You can now sign in</p>
+                  </>
+                ),
+                onCloseCallBack: () => {
+                  setPage("signin");
+                  setSignUpBody({
+                    username: "",
+                    password: "",
+                    confirmPassword: "",
+                  });
+                },
+              });
+              onOpen();
             } catch (error) {
               const err = error as AxiosError;
               // -----------------------------ERROR HANDLING------------------------------
-              console.log(err.response?.data);
-              setErrorModalContent({
-                // header: "Invalid Input",
+              setModalContent({
+                type: "failure",
                 data: (
                   <>
                     <p>
@@ -116,7 +136,7 @@ export function Join() {
         </div>
       </main>
       {/* Modal to show input errors */}
-      {errorModalContent && (
+      {modalContent && (
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -127,13 +147,14 @@ export function Join() {
           <ModalContent>
             {(onClose) => (
               <SignModal
-                header={errorModalContent.header}
+                type={modalContent.type}
+                header={modalContent.header}
                 onCloseCb={() => {
-                  errorModalContent.onCloseCallBack?.();
+                  modalContent.onCloseCallBack?.();
                   onClose();
                 }}
               >
-                {errorModalContent.data}
+                {modalContent.data}
               </SignModal>
             )}
           </ModalContent>
@@ -142,7 +163,8 @@ export function Join() {
     </section>
   );
 }
-interface ErrorModalContent {
+interface ModalContent {
+  type: "success" | "failure";
   header?: string;
   data: React.ReactNode;
   onCloseCallBack?: () => void;

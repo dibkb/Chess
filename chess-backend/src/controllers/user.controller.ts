@@ -19,7 +19,9 @@ const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, profilePic } = validatedBody;
     const existingUser = await getUserByUsername(username);
     if (existingUser) {
-      return res.status(409).json("Username already exits");
+      return res
+        .status(409)
+        .json("Username is taken. Please choose another one");
     }
     const hash = getHash(password);
     const newUser = await prisma.user.create({
@@ -30,7 +32,7 @@ const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
       },
     });
     return res.status(201).json({
-      message: "Account successfully signed in",
+      message: "Account successfully signed up",
       payload: {
         user: {
           id: newUser.id,
