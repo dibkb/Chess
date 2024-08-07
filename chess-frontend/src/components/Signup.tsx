@@ -14,13 +14,13 @@ import { SignUpBody } from "../types/join";
 
 interface Signup {
   className: string;
-  signupBody: SignUpBody;
-  setSignupBody: Dispatch<SetStateAction<SignUpBody>>;
+  signUpBody: SignUpBody;
+  setSignUpBody: Dispatch<SetStateAction<SignUpBody>>;
 }
 export default function Signup({
   className,
-  signupBody,
-  setSignupBody,
+  signUpBody,
+  setSignUpBody,
 }: Signup) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [imageCropUrl, setImageCropUrl] = useState<string>("");
@@ -77,9 +77,9 @@ export default function Signup({
         </div>
         <Input
           isRequired
-          value={signupBody.username}
+          value={signUpBody.username}
           onValueChange={(e) => {
-            setSignupBody((prev) => ({
+            setSignUpBody((prev) => ({
               ...prev,
               username: e,
             }));
@@ -93,9 +93,9 @@ export default function Signup({
           type="password"
           label="Password"
           className="max-w-full"
-          value={signupBody.password}
+          value={signUpBody.password}
           onValueChange={(e) => {
-            setSignupBody((prev) => ({
+            setSignUpBody((prev) => ({
               ...prev,
               password: e,
             }));
@@ -106,9 +106,9 @@ export default function Signup({
           type="password"
           label="Confirm password"
           className="max-w-full"
-          value={signupBody.confirmPassword}
+          value={signUpBody.confirmPassword}
           onValueChange={(e) => {
-            setSignupBody((prev) => ({
+            setSignUpBody((prev) => ({
               ...prev,
               confirmPassword: e,
             }));

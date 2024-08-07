@@ -1,9 +1,17 @@
 import { Input } from "@nextui-org/react";
+import { SignInBody } from "../types/join";
+import { Dispatch, SetStateAction } from "react";
 
 interface Signin {
   className: string;
+  signInBody: SignInBody;
+  setSignInBody: Dispatch<SetStateAction<SignInBody>>;
 }
-export default function Signin({ className }: Signin) {
+export default function Signin({
+  className,
+  signInBody,
+  setSignInBody,
+}: Signin) {
   return (
     <div className={className}>
       <div className="flex flex-col gap-1">
@@ -12,12 +20,31 @@ export default function Signin({ className }: Signin) {
           Welcome back,Please enter your details to sing in
         </p>
       </div>
-      <Input isRequired type="text" label="Username" className="max-w-full" />
+      <Input
+        isRequired
+        type="text"
+        label="Username"
+        className="max-w-full"
+        value={signInBody.username}
+        onValueChange={(val) => {
+          setSignInBody((prev) => ({
+            ...prev,
+            username: val,
+          }));
+        }}
+      />
       <Input
         isRequired
         type="password"
         label="Password"
         className="max-w-full"
+        value={signInBody.password}
+        onValueChange={(val) => {
+          setSignInBody((prev) => ({
+            ...prev,
+            password: val,
+          }));
+        }}
       />
     </div>
   );

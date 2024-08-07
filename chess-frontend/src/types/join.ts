@@ -3,4 +3,8 @@ interface SignUpBody {
   password: string;
   confirmPassword: string;
 }
-export { type SignUpBody };
+interface SignInBody {
+  username: string;
+  password: string;
+}
+export { type SignUpBody, type SignInBody };
