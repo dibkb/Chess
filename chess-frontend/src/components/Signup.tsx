@@ -8,13 +8,20 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import CropProfilepic from "./ModalBody/CropProfilepic";
+import { SignUpBody } from "../types/join";
 
 interface Signup {
   className: string;
+  signupBody: SignUpBody;
+  setSignupBody: Dispatch<SetStateAction<SignUpBody>>;
 }
-export default function Signup({ className }: Signup) {
+export default function Signup({
+  className,
+  signupBody,
+  setSignupBody,
+}: Signup) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [imageCropUrl, setImageCropUrl] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>();
@@ -30,7 +37,7 @@ export default function Signup({ className }: Signup) {
         };
         reader.readAsDataURL(file);
       } else {
-        // TODO : error state
+        // TODO : error state not image file
       }
     }
   };
@@ -68,18 +75,44 @@ export default function Signup({ className }: Signup) {
             </p>
           </label>
         </div>
-        <Input isRequired type="text" label="Username" className="max-w-full" />
+        <Input
+          isRequired
+          value={signupBody.username}
+          onValueChange={(e) => {
+            setSignupBody((prev) => ({
+              ...prev,
+              username: e,
+            }));
+          }}
+          type="text"
+          label="Username"
+          className="max-w-full"
+        />
         <Input
           isRequired
           type="password"
           label="Password"
           className="max-w-full"
+          value={signupBody.password}
+          onValueChange={(e) => {
+            setSignupBody((prev) => ({
+              ...prev,
+              password: e,
+            }));
+          }}
         />
         <Input
           isRequired
           type="password"
           label="Confirm password"
           className="max-w-full"
+          value={signupBody.confirmPassword}
+          onValueChange={(e) => {
+            setSignupBody((prev) => ({
+              ...prev,
+              confirmPassword: e,
+            }));
+          }}
         />
       </div>
       <Modal

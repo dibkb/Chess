@@ -1,15 +1,15 @@
 import { Button, Tab, Tabs } from "@nextui-org/react";
 import Signup from "../components/Signup";
 import Signin from "../components/Signin";
-import { useAuthStore } from "../store/auth";
-import { useEffect } from "react";
+import { useState } from "react";
+import { type SignUpBody } from "../types/join";
 export function Join() {
   const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
-  const { token, setToken } = useAuthStore((state) => state);
-  useEffect(() => {
-    setToken("dfsd");
-  }, []);
-  console.log(token);
+  const [signUpBody, setSignupBody] = useState<SignUpBody>({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="flex rounded-lg justify-center items-center min-w-[600px]">
@@ -20,7 +20,11 @@ export function Join() {
             className="flex items-center justify-center"
           >
             <Tab key="signup" title="Sign Up" className="w-full px-8">
-              <Signup className={tabContainer} />
+              <Signup
+                className={tabContainer}
+                signupBody={signUpBody}
+                setSignupBody={setSignupBody}
+              />
             </Tab>
             <Tab key="signin" title="Sign In" className="px-8">
               <Signin className={tabContainer} />
