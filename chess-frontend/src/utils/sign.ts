@@ -4,5 +4,10 @@ interface SignUpUserInterface {
   type: pageType;
   body: SignInBody | SignUpBody;
 }
-function singUser({ type, body }: SignUpUserInterface) {}
+function singUser({ type, body }: SignUpUserInterface) {
+  try {
+  } catch (err) {
+    console.log(err);
+  }
+}
 export { singUser };

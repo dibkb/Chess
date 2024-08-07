@@ -1,9 +1,10 @@
 import { Button, Tab, Tabs } from "@nextui-org/react";
 import Signup from "../components/Signup";
 import Signin from "../components/Signin";
-import { useState } from "react";
+import { type MouseEvent, useState } from "react";
 import { pageType, type SignInBody, type SignUpBody } from "../types/join";
 import { singUser } from "../utils/sign";
+import { signUpSchema } from "../schemas/zod";
 export function Join() {
   const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
   const [signUpBody, setSignUpBody] = useState<SignUpBody>({
@@ -16,7 +17,27 @@ export function Join() {
     password: "",
   });
   const [page, setPage] = useState<pageType>("signin");
-
+  function onSubmitHandler(e: MouseEvent<HTMLButtonElement>) {
+    {
+      e.preventDefault();
+      // zod parsing
+      switch (page) {
+        case "signup":
+          const result = signUpSchema.safeParse(signUpBody);
+          if (!result.success) {
+            console.error(result.error.errors);
+          }
+          break;
+        case "signin":
+          break;
+      }
+      // api call
+      // singUser({
+      //   type: page,
+      //   body: page === "signin" ? singInBody : signUpBody,
+      // });
+    }
+  }
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="flex rounded-lg justify-center items-center min-w-[600px]">
@@ -46,13 +67,7 @@ export function Join() {
           <Button
             color="primary"
             className="w-full py-6 text-lg"
-            onClick={(e) => {
-              e.preventDefault();
-              singUser({
-                type: page,
-                body: page === "signin" ? singInBody : signUpBody,
-              });
-            }}
+            onClick={onSubmitHandler}
           >
             Continue 👋
           </Button>

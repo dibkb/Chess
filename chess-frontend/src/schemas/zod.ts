@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const signInSchema = z
+const signUpSchema = z
   .object({
     username: z
       .string()
@@ -20,4 +20,4 @@ const signInSchema = z
     path: ["confirmPassword"],
   });
 
-export { signInSchema };
+export { signUpSchema };
