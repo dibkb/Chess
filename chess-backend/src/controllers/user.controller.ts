@@ -55,7 +55,7 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUserByUsername(username);
 
     if (!user) {
-      return res.status(401).json({ message: "Username does not exist" });
+      return res.status(401).json("Username does not exist");
     }
 
     const isPasswordValid = comparePassword({
@@ -63,7 +63,7 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
       unhash: password,
     });
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json("Invalid password");
     }
     // JWT login logic
     const token = makeToken({

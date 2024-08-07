@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -8,120 +9,130 @@ import {
 } from "@nextui-org/react";
 import Signup from "../components/Signup";
 import Signin from "../components/Signin";
-import { type MouseEvent, useState } from "react";
-import { pageType, type SignInBody, type SignUpBody } from "../types/join";
-import { signUpSchema } from "../schemas/zod";
+import { SignModal } from "../components/ModalBody/SignModal";
+import { pageType, SignInBody, SignUpBody } from "../types/join";
+import { signInSchema, signUpSchema } from "../schemas/zod";
 import { axiosInstance } from "../api/apiInstance";
 import { AxiosError } from "axios";
-import { SignModal } from "../components/ModalBody/SignModal";
+
+interface ModalContent {
+  type: "success" | "failure";
+  header?: string;
+  data: React.ReactNode;
+  onCloseCallBack?: () => void;
+}
+
 export function Join() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [modalContent, setModalContent] = useState<ModalContent>();
-  const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
+  const [modalContent, setModalContent] = useState<ModalContent | null>(null);
+  const [page, setPage] = useState<pageType>("signup");
   const [signUpBody, setSignUpBody] = useState<SignUpBody>({
     username: "",
     password: "",
     confirmPassword: "",
   });
-  const [singInBody, setSignInBody] = useState<SignInBody>({
+  const [signInBody, setSignInBody] = useState<SignInBody>({
     username: "",
     password: "",
   });
-  const [page, setPage] = useState<pageType>("signup");
-  async function onSubmitHandler(e: MouseEvent<HTMLButtonElement>) {
-    {
-      e.preventDefault();
-      // zod parsing
-      switch (page) {
-        case "signup":
-          const result = signUpSchema.safeParse(signUpBody);
-          if (!result.success) {
-            // -----------------------------ERROR HANDLING------------------------------
-            setModalContent({
-              type: "failure",
-              header: "Invalid Input",
-              data: (
-                <>
-                  {result.error.errors.map((e) => (
-                    <p key={e.message}>{e.message}</p>
-                  ))}
-                </>
-              ),
-            });
-            onOpen();
-          } else {
-            // api request to sign up
-            try {
-              const response = (await axiosInstance.post("/signup", signUpBody))
-                .data;
-              // ----------------------------- HANDLE SUCCESS -----------------------------
-              setModalContent({
-                type: "success",
-                data: (
-                  <>
-                    <p>
-                      Account successfully signed up for{" "}
-                      {response?.payload.user.username}.
-                    </p>
-                    <p>You can now sign in</p>
-                  </>
-                ),
-                onCloseCallBack: () => {
-                  setPage("signin");
-                  setSignUpBody({
-                    username: "",
-                    password: "",
-                    confirmPassword: "",
-                  });
-                },
-              });
-              onOpen();
-            } catch (error) {
-              const err = error as AxiosError;
-              // -----------------------------ERROR HANDLING------------------------------
-              setModalContent({
-                type: "failure",
-                data: (
-                  <>
-                    <p>
-                      {err.response?.data
-                        ? String(err.response?.data)
-                        : "An unexpected error occurred"}
-                    </p>
-                  </>
-                ),
-              });
-              onOpen();
-            }
-          }
-          break;
-        case "signin":
-          break;
-      }
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const { schema, body, apiEndpoint } =
+      page === "signup"
+        ? { schema: signUpSchema, body: signUpBody, apiEndpoint: "/signup" }
+        : { schema: signInSchema, body: signInBody, apiEndpoint: "/signin" };
+
+    const validationResult = schema.safeParse(body);
+
+    if (!validationResult.success) {
+      showErrorModal("Invalid Input", validationResult.error.errors);
+      return;
     }
-  }
+
+    try {
+      const response = await axiosInstance.post(apiEndpoint, body);
+      handleSuccessResponse(response.data);
+    } catch (error) {
+      handleErrorResponse(error as AxiosError);
+    }
+  };
+
+  const showErrorModal = (header: string, errors: any[]) => {
+    setModalContent({
+      type: "failure",
+      header,
+      data: (
+        <>
+          {errors.map((e) => (
+            <p key={e.message}>{e.message}</p>
+          ))}
+        </>
+      ),
+    });
+    onOpen();
+  };
+
+  const handleSuccessResponse = (response: any) => {
+    if (page === "signup") {
+      setModalContent({
+        type: "success",
+        data: (
+          <>
+            <p>
+              Account successfully signed up for{" "}
+              {response?.payload.user.username}.
+            </p>
+            <p>You can now sign in</p>
+          </>
+        ),
+        onCloseCallBack: () => {
+          setPage("signin");
+          setSignUpBody({ username: "", password: "", confirmPassword: "" });
+        },
+      });
+      onOpen();
+    } else {
+      // Handle sign-in success (e.g., set token and redirect)
+    }
+  };
+
+  const handleErrorResponse = (error: AxiosError) => {
+    setModalContent({
+      type: "failure",
+      data: (
+        <p>
+          {error.response?.data
+            ? String(error.response.data)
+            : "An unexpected error occurred"}
+        </p>
+      ),
+    });
+    onOpen();
+  };
+
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="flex rounded-lg justify-center items-center min-w-[600px]">
         <div className="w-full">
           <Tabs
             aria-label="Options"
-            size={"lg"}
+            size="lg"
             className="flex items-center justify-center"
             selectedKey={page}
-            onSelectionChange={(page) => setPage(page as pageType)}
+            onSelectionChange={(key) => setPage(key as pageType)}
           >
             <Tab key="signup" title="Sign Up" className="w-full px-8">
               <Signup
-                className={tabContainer}
+                className="flex flex-col gap-6 h-[470px] mt-8"
                 signUpBody={signUpBody}
                 setSignUpBody={setSignUpBody}
               />
             </Tab>
             <Tab key="signin" title="Sign In" className="px-8">
               <Signin
-                className={tabContainer}
-                signInBody={singInBody}
+                className="flex flex-col gap-6 h-[470px] mt-8"
+                signInBody={signInBody}
                 setSignInBody={setSignInBody}
               />
             </Tab>
@@ -129,13 +140,12 @@ export function Join() {
           <Button
             color="primary"
             className="w-full py-6 text-lg"
-            onClick={onSubmitHandler}
+            onClick={handleSubmit}
           >
             Continue 👋
           </Button>
         </div>
       </main>
-      {/* Modal to show input errors */}
       {modalContent && (
         <Modal
           isOpen={isOpen}
@@ -162,10 +172,4 @@ export function Join() {
       )}
     </section>
   );
-}
-interface ModalContent {
-  type: "success" | "failure";
-  header?: string;
-  data: React.ReactNode;
-  onCloseCallBack?: () => void;
 }
