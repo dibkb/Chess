@@ -1,6 +1,8 @@
 import { Input } from "@nextui-org/react";
 import { SignInBody } from "../types/join";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import Eye from "../svg/Eye";
+import EyeSlash from "../svg/EyeSlash";
 
 interface Signin {
   className: string;
@@ -12,6 +14,8 @@ export default function Signin({
   signInBody,
   setSignInBody,
 }: Signin) {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toggleVisibility = () => setIsVisible((prev) => !prev);
   return (
     <div className={className}>
       <div className="flex flex-col gap-1">
@@ -24,7 +28,6 @@ export default function Signin({
         isRequired
         type="text"
         label="Username"
-        placeholder="Enter your username"
         className="max-w-full"
         value={signInBody.username}
         onValueChange={(val) => {
@@ -36,7 +39,7 @@ export default function Signin({
       />
       <Input
         isRequired
-        type="password"
+        type={isVisible ? "text" : "password"}
         label="Password"
         className="max-w-full"
         value={signInBody.password}
@@ -46,6 +49,16 @@ export default function Signin({
             password: val,
           }));
         }}
+        endContent={
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={toggleVisibility}
+            aria-label="toggle password visibility"
+          >
+            {isVisible ? <Eye /> : <EyeSlash />}
+          </button>
+        }
       />
     </div>
   );
