@@ -1,8 +1,15 @@
 import { Button, Tab, Tabs } from "@nextui-org/react";
 import Signup from "../components/Signup";
 import Signin from "../components/Signin";
+import { useAuthStore } from "../store/auth";
+import { useEffect } from "react";
 export function Join() {
   const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
+  const { token, setToken } = useAuthStore((state) => state);
+  useEffect(() => {
+    setToken("dfsd");
+  }, []);
+  console.log(token);
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="flex rounded-lg justify-center items-center min-w-[600px]">

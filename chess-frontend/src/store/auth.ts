@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { Types } from "../types/enum";
 
 interface AuthState {
@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: Types.AuthStore,
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
