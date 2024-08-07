@@ -7,4 +7,6 @@ interface SignInBody {
   username: string;
   password: string;
 }
-export { type SignUpBody, type SignInBody };
+type pageType = "signin" | "signup";
+
+export { type SignUpBody, type SignInBody, type pageType };
