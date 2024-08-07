@@ -24,6 +24,7 @@ export default function Signin({
         isRequired
         type="text"
         label="Username"
+        placeholder="Enter your username"
         className="max-w-full"
         value={signInBody.username}
         onValueChange={(val) => {

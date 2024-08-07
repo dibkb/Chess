@@ -1,11 +1,23 @@
-import { Button, Tab, Tabs } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Tab,
+  Tabs,
+  useDisclosure,
+} from "@nextui-org/react";
 import Signup from "../components/Signup";
 import Signin from "../components/Signin";
 import { type MouseEvent, useState } from "react";
 import { pageType, type SignInBody, type SignUpBody } from "../types/join";
 import { singUser } from "../utils/sign";
 import { signUpSchema } from "../schemas/zod";
+import { ExclamationIcon } from "../svg/ExclamationIcon";
 export function Join() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [parsingErrors, setParsingErrors] = useState<string[]>();
   const tabContainer = "flex flex-col gap-6 h-[470px] mt-8";
   const [signUpBody, setSignUpBody] = useState<SignUpBody>({
     username: "",
@@ -16,7 +28,7 @@ export function Join() {
     username: "",
     password: "",
   });
-  const [page, setPage] = useState<pageType>("signin");
+  const [page, setPage] = useState<pageType>("signup");
   function onSubmitHandler(e: MouseEvent<HTMLButtonElement>) {
     {
       e.preventDefault();
@@ -25,7 +37,9 @@ export function Join() {
         case "signup":
           const result = signUpSchema.safeParse(signUpBody);
           if (!result.success) {
-            console.error(result.error.errors);
+            setParsingErrors(result.error.errors.map((e) => e.message));
+            onOpen();
+          } else {
           }
           break;
         case "signin":
@@ -73,6 +87,38 @@ export function Join() {
           </Button>
         </div>
       </main>
+      {parsingErrors?.length && (
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          backdrop="blur"
+          isDismissable={false}
+          size="xl"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Invaid Input
+                </ModalHeader>
+                <main className="flex flex-col gap-4 items-center justify-center">
+                  <ExclamationIcon className="size-9 text-red-500" />
+                  <div className="text-sm flex flex-col gap-2 text-center text-red-500">
+                    {parsingErrors.map((mes) => (
+                      <p key={mes}>{mes}</p>
+                    ))}
+                  </div>
+                </main>
+                <ModalFooter>
+                  <Button color="primary" variant="light" onPress={onClose}>
+                    Okay
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      )}
     </section>
   );
 }

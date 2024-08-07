@@ -11,6 +11,8 @@ import {
 import React, { Dispatch, SetStateAction, useState } from "react";
 import CropProfilepic from "./ModalBody/CropProfilepic";
 import { SignUpBody } from "../types/join";
+import EyeSlash from "../svg/EyeSlash";
+import Eye from "../svg/Eye";
 
 interface Signup {
   className: string;
@@ -22,6 +24,15 @@ export default function Signup({
   signUpBody,
   setSignUpBody,
 }: Signup) {
+  const [isVisible, setIsVisible] = useState<Visible>({
+    password: false,
+    confirmPassword: false,
+  });
+  const toggleVisibility = (type: Label) =>
+    setIsVisible((prev) => ({
+      ...prev,
+      [type]: !prev[type],
+    }));
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [imageCropUrl, setImageCropUrl] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>();
@@ -90,29 +101,49 @@ export default function Signup({
         />
         <Input
           isRequired
-          type="password"
           label="Password"
           className="max-w-full"
           value={signUpBody.password}
+          type={isVisible.password ? "text" : "password"}
           onValueChange={(e) => {
             setSignUpBody((prev) => ({
               ...prev,
               password: e,
             }));
           }}
+          endContent={
+            <button
+              className="focus:outline-none"
+              type="button"
+              onClick={() => toggleVisibility("password")}
+              aria-label="toggle password visibility"
+            >
+              {isVisible.password ? <Eye /> : <EyeSlash />}
+            </button>
+          }
         />
         <Input
           isRequired
-          type="password"
           label="Confirm password"
           className="max-w-full"
           value={signUpBody.confirmPassword}
+          type={isVisible.confirmPassword ? "text" : "password"}
           onValueChange={(e) => {
             setSignUpBody((prev) => ({
               ...prev,
               confirmPassword: e,
             }));
           }}
+          endContent={
+            <button
+              className="focus:outline-none"
+              type="button"
+              onClick={() => toggleVisibility("confirmPassword")}
+              aria-label="Toggle confirm password visibility"
+            >
+              {isVisible.confirmPassword ? <Eye /> : <EyeSlash />}
+            </button>
+          }
         />
       </div>
       <Modal
@@ -144,3 +175,7 @@ export default function Signup({
     </>
   );
 }
+
+// types
+type Label = "password" | "confirmPassword";
+type Visible = Record<Label, boolean>;
