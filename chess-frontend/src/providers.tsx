@@ -1,6 +1,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { Navbar } from "./components/Navbar";
+import { NavbarComp } from "./components/Navbar";
+import { BrowserRouter } from "react-router-dom";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,8 +11,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
         attribute="class"
         themes={["dark", "light"]}
       >
-        <Navbar />
-        <main className="container mx-auto mt-1">{children}</main>
+        <BrowserRouter>
+          <NavbarComp />
+          <main className="px-6 gap-4 w-full mx-auto max-w-[1536px] mt-1">
+            {children}
+          </main>
+        </BrowserRouter>
       </NextThemesProvider>
     </NextUIProvider>
   );

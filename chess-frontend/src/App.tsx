@@ -4,13 +4,11 @@ import { Join } from "./screens/Joinpage";
 import Lobby from "./screens/Lobby";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landingpage />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/lobby" element={<Lobby />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Landingpage />} />
+      <Route path="/join" element={<Join />} />
+      <Route path="/lobby" element={<Lobby />} />
+    </Routes>
   );
 }
 
