@@ -1,8 +1,10 @@
-import { Input } from "@nextui-org/react";
+import { Input, Tab, Tabs } from "@nextui-org/react";
 import { SearchIcon } from "../svg/SearchIcon";
 import Playercard from "../components/Playercard";
+import { useState } from "react";
 
 export default function Lobby() {
+  const [selected, setSelected] = useState<selected>("lobby");
   return (
     <div className="mt-4 flex flex-col gap-8">
       <div className="flex flex-col lg:flex-row items-center gap-4 justify-between">
@@ -24,11 +26,26 @@ export default function Lobby() {
           type="search"
         />
       </div>
-      <main className="grid gap-6 grid-fit">
-        {[...new Array(9)].map((_, idx) => (
-          <Playercard key={idx} />
-        ))}
-      </main>
+      <Tabs
+        aria-label="Options"
+        size="lg"
+        variant="solid"
+        radius="sm"
+        fullWidth={true}
+        selectedKey={selected}
+        onSelectionChange={(key) => setSelected(key as selected)}
+      >
+        <Tab key="lobby" title="Lobby">
+          <main className="grid gap-6 grid-fit">
+            {[...new Array(9)].map((_, idx) => (
+              <Playercard key={idx} />
+            ))}
+          </main>
+        </Tab>
+        <Tab key="chat" title="Chat"></Tab>
+      </Tabs>
     </div>
   );
 }
+
+type selected = "lobby" | "chat";

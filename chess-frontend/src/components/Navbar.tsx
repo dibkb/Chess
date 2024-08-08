@@ -20,6 +20,8 @@ import { MoonIcon } from "../svg/MoonIcon";
 import { SunIcon } from "../svg/SunIcon";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
+import { Setting } from "../svg/Setting";
+import Logout from "../svg/Logout";
 
 export function NavbarComp() {
   const { token, user } = useAuthStore((state) => state);
@@ -99,12 +101,20 @@ export function NavbarComp() {
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2">
-                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold"> Signed in as</p>
                 <p className="font-semibold">{user.username}</p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
+              <DropdownItem key="settings">
+                <p className="flex items-center gap-1">
+                  <Setting className="size-5" />
+                  My Settings
+                </p>
+              </DropdownItem>
               <DropdownItem key="logout" color="danger">
-                Log Out
+                <p className="flex items-center gap-1">
+                  <Logout />
+                  Log Out
+                </p>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
