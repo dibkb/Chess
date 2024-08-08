@@ -116,7 +116,7 @@ export function Join() {
     });
     onOpen();
   };
-
+  const signInPageClassName = "flex flex-col gap-6 h-[500px] mt-8";
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
       <main className="flex rounded-lg justify-center items-center min-w-[600px]">
@@ -130,16 +130,18 @@ export function Join() {
           >
             <Tab key="signup" title="Sign Up" className="w-full px-8">
               <Signup
-                className="flex flex-col gap-6 h-[470px] mt-8"
+                className={signInPageClassName}
                 signUpBody={signUpBody}
                 setSignUpBody={setSignUpBody}
+                onRouteToSignIn={() => setPage("signin")}
               />
             </Tab>
             <Tab key="signin" title="Sign In" className="px-8">
               <Signin
-                className="flex flex-col gap-6 h-[470px] mt-8"
+                className={signInPageClassName}
                 signInBody={signInBody}
                 setSignInBody={setSignInBody}
+                onRouteToSignUp={() => setPage("signup")}
               />
             </Tab>
           </Tabs>

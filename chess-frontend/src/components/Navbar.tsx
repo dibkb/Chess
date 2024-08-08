@@ -19,8 +19,10 @@ import { useEffect, useState } from "react";
 import { MoonIcon } from "../svg/MoonIcon";
 import { SunIcon } from "../svg/SunIcon";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/auth";
 
 export function NavbarComp() {
+  const { token, user } = useAuthStore((state) => state);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -34,6 +36,7 @@ export function NavbarComp() {
   const onChangeHandler = (e: boolean) => {
     e ? setTheme("dark") : setTheme("light");
   };
+  const isLoggedIn = token !== null && user !== null;
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
@@ -66,16 +69,6 @@ export function NavbarComp() {
       </NavbarContent>
       <NavbarContent as="div" justify="end">
         <NavbarItem>
-          <Button
-            as={Link}
-            color="primary"
-            onClick={() => navigate("/join")}
-            variant="flat"
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
           <Switch
             defaultSelected={theme === "dark"}
             size="md"
@@ -90,30 +83,43 @@ export function NavbarComp() {
             }
           />
         </NavbarItem>
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
+        {isLoggedIn ? (
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="primary"
+                radius="md"
+                size="sm"
+                src={user.profilePic}
+                name={user.username}
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold">{user.username}</p>
+              </DropdownItem>
+              <DropdownItem key="settings">My Settings</DropdownItem>
+              <DropdownItem key="logout" color="danger">
+                Log Out
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <NavbarItem>
+            <Button
+              as={Link}
               color="primary"
-              name="Jason Hughes"
-              radius="md"
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
-            </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="logout" color="danger">
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+              onClick={() => navigate("/join")}
+              variant="flat"
+            >
+              Sign Up
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <NavbarMenu></NavbarMenu>

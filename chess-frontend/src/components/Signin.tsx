@@ -1,4 +1,4 @@
-import { Input } from "@nextui-org/react";
+import { Input, Link } from "@nextui-org/react";
 import { SignInBody } from "../types/join";
 import { Dispatch, SetStateAction, useState } from "react";
 import Eye from "../svg/Eye";
@@ -8,11 +8,13 @@ interface Signin {
   className: string;
   signInBody: SignInBody;
   setSignInBody: Dispatch<SetStateAction<SignInBody>>;
+  onRouteToSignUp: () => void;
 }
 export default function Signin({
   className,
   signInBody,
   setSignInBody,
+  onRouteToSignUp,
 }: Signin) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible((prev) => !prev);
@@ -60,6 +62,12 @@ export default function Signin({
           </button>
         }
       />
+      <p className="text-center text-small">
+        Don&apos;t have an account?{" "}
+        <Link size="sm" onPress={onRouteToSignUp} className="cursor-pointer">
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 }

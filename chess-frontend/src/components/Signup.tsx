@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Input,
+  Link,
   Modal,
   ModalContent,
   ModalFooter,
@@ -18,11 +19,13 @@ interface Signup {
   className: string;
   signUpBody: SignUpBody;
   setSignUpBody: Dispatch<SetStateAction<SignUpBody>>;
+  onRouteToSignIn: () => void;
 }
 export default function Signup({
   className,
   signUpBody,
   setSignUpBody,
+  onRouteToSignIn,
 }: Signup) {
   const [isVisible, setIsVisible] = useState<Visible>({
     password: false,
@@ -145,6 +148,12 @@ export default function Signup({
             </button>
           }
         />
+        <p className="text-center text-small">
+          Already have an account?{" "}
+          <Link size="sm" onPress={onRouteToSignIn} className="cursor-pointer">
+            Sign in
+          </Link>
+        </p>
       </div>
       <Modal
         isOpen={isOpen}
