@@ -13,8 +13,10 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { MoonIcon } from "../svg/MoonIcon";
 import { SunIcon } from "../svg/SunIcon";
+import { useNavigate } from "react-router-dom";
 
 export function NavbarComp() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -38,20 +40,33 @@ export function NavbarComp() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        <NavbarBrand
+          as={Link}
+          onClick={() => navigate("/")}
+          className="text-foreground cursor-pointer"
+        >
           <p className="elsie-regular text-2xl">Chessmate 👋</p>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/lobby">
+          <Link
+            color="foreground"
+            onClick={() => navigate("/lobby")}
+            className="cursor-pointer"
+          >
             Lobby
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="primary" href="/join" variant="flat">
+          <Button
+            as={Link}
+            color="primary"
+            onClick={() => navigate("/join")}
+            variant="flat"
+          >
             Sign Up
           </Button>
         </NavbarItem>

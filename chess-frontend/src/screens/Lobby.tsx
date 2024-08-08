@@ -8,7 +8,7 @@ export default function Lobby() {
       <div className="flex flex-col lg:flex-row items-center gap-4 justify-between">
         <div className="cutive text-xl font-medium flex items-center gap-2">
           <span className="inline-block !h-3 !w-3 rounded-full bg-lime-500"></span>
-          <span>14 Players Online</span>
+          <span>9 Players Online</span>
         </div>
         <Input
           classNames={{
@@ -25,7 +25,7 @@ export default function Lobby() {
         />
       </div>
       <main className="grid gap-6 grid-fit">
-        {[...new Array(14)].map((_, idx) => (
+        {[...new Array(9)].map((_, idx) => (
           <Playercard key={idx} />
         ))}
       </main>
