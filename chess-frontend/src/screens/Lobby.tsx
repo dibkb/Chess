@@ -2,6 +2,7 @@ import { Input, Tab, Tabs } from "@nextui-org/react";
 import { SearchIcon } from "../svg/SearchIcon";
 import Playercard from "../components/Playercard";
 import { useState } from "react";
+import { LobbyChat } from "../components/LobbyChat";
 
 export default function Lobby() {
   const [selected, setSelected] = useState<selected>("lobby");
@@ -9,8 +10,8 @@ export default function Lobby() {
     <div className="mt-4 flex flex-col gap-8">
       <div className="flex flex-col lg:flex-row items-center gap-4 justify-between">
         <div className="cutive text-xl font-medium flex items-center gap-2">
-          <span className="inline-block !h-3 !w-3 rounded-full bg-lime-500"></span>
-          <span className="font-semibold">9 Players Online</span>
+          <span className="inline-block !h-3 !w-3 rounded-full bg-lime-500 animate-pulse"></span>
+          <span className="">9 Players Online</span>
         </div>
         <Input
           classNames={{
@@ -42,7 +43,9 @@ export default function Lobby() {
             ))}
           </main>
         </Tab>
-        <Tab key="chat" title="Chat"></Tab>
+        <Tab key="chat" title="Chat">
+          <LobbyChat />
+        </Tab>
       </Tabs>
     </div>
   );
