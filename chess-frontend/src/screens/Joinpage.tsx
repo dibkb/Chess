@@ -7,6 +7,7 @@ import {
   Tabs,
   useDisclosure,
 } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 import Signup from "../components/Signup";
 import Signin from "../components/Signin";
 import { SignModal } from "../components/ModalBody/SignModal";
@@ -38,6 +39,7 @@ export function Join() {
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { schema, body, apiEndpoint } =
@@ -102,7 +104,7 @@ export function Join() {
       const { token, user }: { token: string; user: User } = response.payload;
       setUser(user);
       setToken(token);
-      // Handle sign-in success (e.g., set token and redirect)
+      return navigate("/lobby");
     }
   };
 
