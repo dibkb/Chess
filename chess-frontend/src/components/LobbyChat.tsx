@@ -18,18 +18,20 @@ const LobbyChat = () => {
   const [message, setMessage] = useState("");
   function submitMessageHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newMessage: Chat = {
-      owner: "me",
-      message,
-    };
-    setMessageHistory((prev) => {
-      if (prev) {
-        return [...prev, newMessage];
-      } else {
-        return [newMessage];
-      }
-    });
-    setMessage("");
+    if (message !== "") {
+      const newMessage: Chat = {
+        owner: "me",
+        message,
+      };
+      setMessageHistory((prev) => {
+        if (prev) {
+          return [...prev, newMessage];
+        } else {
+          return [newMessage];
+        }
+      });
+      setMessage("");
+    }
   }
   // Scroll to the bottom when messageHistory updates
   useEffect(() => {
@@ -80,9 +82,10 @@ const LobbyChat = () => {
             onChange={(e) => setMessage(e.target.value)}
           />
           <Button
+            isDisabled={message.length ? false : true}
             type="submit"
             color="primary"
-            variant="solid"
+            variant="flat"
             className="flex items-center gap-2"
           >
             Send
