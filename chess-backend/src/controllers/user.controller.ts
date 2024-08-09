@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Types } from "../types";
+import { v2 as cloudinary } from "cloudinary";
 import {
   type SignUpBody,
   type SignInBody,
@@ -24,11 +24,16 @@ const signUpUser = async (req: Request, res: Response, next: NextFunction) => {
         .json("Username is taken. Please choose another one");
     }
     const hash = getHash(password);
+    let cloudinaryLinkPic;
+    if (profilePic) {
+      const newprofile = await cloudinary.uploader.upload(profilePic);
+      cloudinaryLinkPic = newprofile.secure_url;
+    }
     const newUser = await prisma.user.create({
       data: {
         username,
         password: hash,
-        ...(profilePic && { profilePic }),
+        profilePic: cloudinaryLinkPic,
       },
     });
     return res.status(201).json({

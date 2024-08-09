@@ -96,7 +96,7 @@ const LobbyChat = () => {
             type="submit"
             color="primary"
             variant="flat"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
           >
             Send
           </Button>

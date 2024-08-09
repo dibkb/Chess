@@ -12,10 +12,10 @@ export default function Playercard() {
         <p className="text-tiny uppercase font-medium">👑 3 win streak</p>
         <div className="flex items-center gap-2">
           <small className="text-default-500 clear-start flex items-center gap-1">
-            <CheckIcon className="size-4 text-lime-600" /> Wins
+            <CheckIcon className="size-4 text-lime-600" />4 Wins
           </small>
           <small className="text-default-500 clear-start flex items-center gap-1">
-            <XmarkIcon className="size-4 text-red-600" /> Losses
+            <XmarkIcon className="size-4 text-red-600" />1 Losses
           </small>
         </div>
       </CardHeader>

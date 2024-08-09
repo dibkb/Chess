@@ -2,6 +2,7 @@ interface SignUpBody {
   username: string;
   password: string;
   confirmPassword: string;
+  profilePic?: string;
 }
 interface SignInBody {
   username: string;

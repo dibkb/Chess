@@ -37,7 +37,6 @@ export default function Signup({
       [type]: !prev[type],
     }));
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [imageCropUrl, setImageCropUrl] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>();
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -81,7 +80,7 @@ export default function Signup({
               radius="lg"
               isBordered
               showFallback
-              src={imageCropUrl || imageUrl}
+              src={signUpBody.profilePic || imageUrl}
             />
 
             <p className="text-default-400 text-center text-xs">
@@ -170,7 +169,9 @@ export default function Signup({
               </ModalHeader>
               <CropProfilepic
                 imageUrl={imageUrl || ""}
-                setImageCropUrl={setImageCropUrl}
+                setImageCropUrl={(res: string) => {
+                  setSignUpBody((prev) => ({ ...prev, profilePic: res }));
+                }}
               />
               <ModalFooter>
                 <Button color="primary" variant="light" onPress={onClose}>

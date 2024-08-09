@@ -38,7 +38,6 @@ export function Join() {
     username: "",
     password: "",
   });
-
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { schema, body, apiEndpoint } =
@@ -91,7 +90,11 @@ export function Join() {
         ),
         onCloseCallBack: () => {
           setPage("signin");
-          setSignUpBody({ username: "", password: "", confirmPassword: "" });
+          setSignUpBody({
+            username: "",
+            password: "",
+            confirmPassword: "",
+          });
         },
       });
       onOpen();
