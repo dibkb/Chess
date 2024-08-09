@@ -4,9 +4,7 @@ import { User } from "../types/zustand";
 const MessageBodyOwner = ({ user, children }: MessageBody) => {
   return (
     <main className="text-sm flex justify-end text-white">
-      <div className="bg-blue-600 px-4 py-2 rounded-lg w-min whitespace-nowrap">
-        {children}
-      </div>
+      <div className="bg-primary px-4 py-2 rounded-lg w-fill">{children}</div>
     </main>
   );
 };

@@ -7,7 +7,7 @@ const PORT = 3000;
 
 const app = express();
 // default middlewares
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: ["http://localhost:5173"] }));
 app.use(helmet());
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
