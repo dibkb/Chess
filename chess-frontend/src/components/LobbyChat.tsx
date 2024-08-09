@@ -14,7 +14,17 @@ import { Chat } from "../types/chat";
 import { MessageBodyOwner, MessageBodyUser } from "./MessageBody";
 
 const LobbyChat = () => {
-  const [messageHistory, setMessageHistory] = useState<Chat[]>();
+  const [messageHistory, setMessageHistory] = useState<Chat[]>([
+    {
+      message:
+        "Your Lordship 👑, I see that the issue might be related to when the scrollIntoView function is called in relation to the message list update. The problem might be that the scrollIntoView function is being called before the DOM has updated with the new message, so the scroll isn't happening as expected.",
+      owner: "other",
+    },
+    {
+      message: "Your Lordship 👑",
+      owner: "other",
+    },
+  ]);
   const [message, setMessage] = useState("");
   function submitMessageHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
