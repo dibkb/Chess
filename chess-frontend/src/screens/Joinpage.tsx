@@ -124,7 +124,7 @@ export function Join() {
   const signInPageClassName = "flex flex-col gap-6 h-[500px] mt-8";
   return (
     <section className="flex justify-center items-center h-[calc(100vh-8rem)]">
-      <main className="flex rounded-lg justify-center items-center min-w-[600px]">
+      <main className="flex rounded-lg justify-center items-center sm:w-[600px] w-[100vw]">
         <div className="w-full">
           <Tabs
             aria-label="Options"
