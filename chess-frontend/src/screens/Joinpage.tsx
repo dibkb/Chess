@@ -133,7 +133,7 @@ export function Join() {
             selectedKey={page}
             onSelectionChange={(key) => setPage(key as pageType)}
           >
-            <Tab key="signup" title="Sign Up" className="w-full px-8">
+            <Tab key="signup" title="Sign Up" className="w-full">
               <Signup
                 className={signInPageClassName}
                 signUpBody={signUpBody}
@@ -141,7 +141,7 @@ export function Join() {
                 onRouteToSignIn={() => setPage("signin")}
               />
             </Tab>
-            <Tab key="signin" title="Sign In" className="px-8">
+            <Tab key="signin" title="Sign In" className="w-full">
               <Signin
                 className={signInPageClassName}
                 signInBody={signInBody}
