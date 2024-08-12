@@ -1,8 +1,11 @@
 import express from "express";
+import { Server } from "socket.io";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import helmet from "helmet";
 import { router } from "./routes";
+import { Socket } from "./types";
+import { SocketManagerInstance } from "./SocketManger";
 const PORT = 3000;
 
 const app = express();
@@ -19,6 +22,45 @@ app.get("/test", (req, res) => {
 app.use("/api", router);
 const expressServer = app.listen(PORT, () => {
   console.log(`Server running on ${PORT} 🚀`);
+});
+// socket server
+const io = new Server(expressServer, {
+  cors: {
+    origin: ["http://localhost:5173"],
+  },
+});
+// connection
+io.on("connection", (socket) => {
+  // emit-all online users
+  socket.on(Socket.Connect, ({ user_id }) => {
+    SocketManagerInstance.connectUser(user_id, socket.id);
+    // all online users
+    const onlineUsers = SocketManagerInstance.getAllOnlineusers();
+    io.emit(Socket.OnlinePlayers, onlineUsers);
+  });
+  // message
+  socket.on(Socket.Message, (mess) => {
+    socket.broadcast.emit(Socket.Message, mess);
+  });
+  // typing
+  socket.on(Socket.Typing, () => {
+    socket.broadcast.emit(Socket.Typing);
+  });
+  // not-typing
+  socket.on(Socket.StoppedTyping, () => {
+    socket.broadcast.emit(Socket.StoppedTyping);
+  });
+  // challenge
+  socket.on(Socket.Challenge, ({ user_id, opponent_id }) => {
+    socket.broadcast.emit(Socket.Challenge, { user_id, opponent_id });
+  });
+  // disconnect
+  socket.on("disconnect", () => {
+    SocketManagerInstance.disconnectSocket(socket.id);
+    // all online users
+    const onlineUsers = SocketManagerInstance.getAllOnlineusers();
+    io.emit(Socket.OnlinePlayers, onlineUsers);
+  });
 });
 // prisma client
 export const prisma = new PrismaClient();

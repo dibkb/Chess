@@ -1,4 +1,17 @@
 enum Types {
   ACCESS_TOKEN = "chessmate__accesstoken",
 }
-export { Types };
+enum Socket {
+  Connect = "Connect",
+  Message = "Message",
+  Disconnect = "Disconnect",
+  Challenge = "Challenge",
+  Typing = "Typing",
+  StoppedTyping = "StoppedTyping",
+  OnlinePlayers = "OnlinePlayers",
+}
+interface OnlinePlayer {
+  id: string;
+  socket_id: string;
+}
+export { Types, OnlinePlayer, Socket };
