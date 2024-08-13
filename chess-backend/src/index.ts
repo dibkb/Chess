@@ -10,7 +10,7 @@ const PORT = 3000;
 
 const app = express();
 // default middlewares
-app.use(cors({ origin: ["http://localhost:5173"] }));
+app.use(cors({ origin: "*" }));
 app.use(helmet());
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
@@ -26,15 +26,15 @@ const expressServer = app.listen(PORT, () => {
 // socket server
 const io = new Server(expressServer, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: "*",
   },
 });
 // connection
+console.log(SocketManagerInstance.getAllOnlineusers());
 io.on("connection", (socket) => {
   // emit-all online users
-  socket.on(Socket.Connect, ({ user_id }) => {
+  socket.on(Socket.Connect, (user_id) => {
     SocketManagerInstance.connectUser(user_id, socket.id);
-    // all online users
     const onlineUsers = SocketManagerInstance.getAllOnlineusers();
     io.emit(Socket.OnlinePlayers, onlineUsers);
   });

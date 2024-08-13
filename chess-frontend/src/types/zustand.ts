@@ -1,3 +1,5 @@
+import { SocketMessage } from "./socket";
+
 interface User {
   id: string;
   username: string;
@@ -9,7 +11,18 @@ interface AuthState {
   clearToken: () => void;
   user: User | null;
   setUser: (user: User) => void;
+  isConnected: boolean;
+  socketId: string | null;
   clearUser: () => void;
+  connect: () => void;
+  disconnect: () => void;
+  sendMessage: ({
+    socketEvent,
+    data,
+  }: {
+    socketEvent: SocketMessage;
+    data: unknown;
+  }) => void;
 }
 
 enum Types {

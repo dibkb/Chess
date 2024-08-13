@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -17,6 +17,8 @@ import { axiosInstance } from "../api/apiInstance";
 import { AxiosError } from "axios";
 import { useAuthStore } from "../store/auth";
 import { User } from "../types/zustand";
+import { SocketMessage } from "../types/socket";
+import { io, Socket } from "socket.io-client";
 
 interface ModalContent {
   type: "success" | "failure";
@@ -26,7 +28,7 @@ interface ModalContent {
 }
 
 export function Join() {
-  const { setToken, setUser } = useAuthStore((state) => state);
+  const { setToken, setUser, sendMessage } = useAuthStore((state) => state);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalContent, setModalContent] = useState<ModalContent | null>(null);
   const [page, setPage] = useState<pageType>("signup");
@@ -58,6 +60,7 @@ export function Join() {
       const response = await axiosInstance.post(apiEndpoint, body);
       handleSuccessResponse(response.data);
     } catch (error) {
+      console.log(error);
       handleErrorResponse(error as AxiosError);
     }
   };
@@ -104,6 +107,7 @@ export function Join() {
       const { token, user }: { token: string; user: User } = response.payload;
       setUser(user);
       setToken(token);
+      sendMessage({ socketEvent: SocketMessage.Connect, data: user.id });
       return navigate("/lobby");
     }
   };
