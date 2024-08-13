@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
   socket.on(Socket.Connect, (user_id) => {
     SocketManagerInstance.connectUser(user_id, socket.id);
     const onlineUsers = SocketManagerInstance.getAllOnlineusers();
+    console.log("c0nnet", onlineUsers);
     io.emit(Socket.OnlinePlayers, onlineUsers);
   });
   // message
@@ -59,6 +60,7 @@ io.on("connection", (socket) => {
     SocketManagerInstance.disconnectSocket(socket.id);
     // all online users
     const onlineUsers = SocketManagerInstance.getAllOnlineusers();
+    console.log("disconnect", onlineUsers);
     io.emit(Socket.OnlinePlayers, onlineUsers);
   });
 });

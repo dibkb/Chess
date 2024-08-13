@@ -24,12 +24,17 @@ export const useAuthStore = create<AuthState>()(
         socket.on("connect", () => {
           set({ isConnected: true, socketId: socket.id });
         });
+        socket.emit(SocketMessage.Connect, get().user?.id);
         socket.on("disconnect", () => {
           set({ isConnected: false, socketId: null });
         });
       },
       disconnect: () => {
         socket.disconnect();
+        set({
+          isConnected: false,
+          socketId: null,
+        });
       },
       sendMessage: ({ socketEvent, data }) => {
         if (get().isConnected) {
