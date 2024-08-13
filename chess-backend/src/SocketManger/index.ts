@@ -25,8 +25,8 @@ class SocketManager {
     for (const [user_id, socket_id] of this.online) {
       if (socket_id === socket) {
         this.online.delete(user_id);
+        break;
       }
-      break;
     }
   }
   // get all online users
