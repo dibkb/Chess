@@ -99,8 +99,9 @@ const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
     if (!userIds) {
       return res.status(401).json("No userId provided");
     }
-    const userInfo = userIds.map((id) => getUserByUserId(id));
-    const usersData = await Promise.all(userInfo);
+    const usersData = await Promise.all(
+      userIds.map((id) => getUserByUserId(id))
+    );
     return res.status(200).json({
       users: usersData,
     });
