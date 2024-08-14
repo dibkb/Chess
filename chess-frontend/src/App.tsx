@@ -14,6 +14,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   const { connect, disconnect, logoutUser, isLoggedIn } = useAuthStore(
@@ -35,7 +36,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/join" element={<Join />} />
-        <Route path="/lobby" element={<Lobby />} />
+        {/* protected route */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/lobby" element={<Lobby />} />
+        </Route>
       </Routes>
       <Modal
         isOpen={isOpen}
