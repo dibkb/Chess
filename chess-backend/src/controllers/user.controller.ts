@@ -99,11 +99,15 @@ const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
     if (!userIds) {
       return res.status(401).json("No userId provided");
     }
-    const usersData = await Promise.all(
-      userIds.map((id) => getUserByUserId(id))
-    );
+    let userData;
+    if (typeof userIds === "string") {
+      userData = await Promise.resolve(getUserByUserId(userIds));
+    } else {
+      userData = await Promise.all(userIds.map((id) => getUserByUserId(id)));
+    }
+
     return res.status(200).json({
-      users: usersData,
+      users: userData,
     });
 
     //

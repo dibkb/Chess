@@ -3,7 +3,7 @@ import { SocketMessage } from "./socket";
 
 interface User {
   id: string;
-  username: string;
+  username?: string;
   profilePic?: string;
 }
 interface AuthState {
@@ -29,13 +29,16 @@ interface AuthState {
     data: unknown;
   }) => void;
 }
+interface SocketUser extends User {
+  socketId: string;
+}
 interface SocketStore {
   socket: Socket | null;
-  onlineUsers: User[] | null;
+  onlineUsers: Map<string, SocketUser> | null;
   getOnlineUsersLength: () => void;
-  setOnlineUsers: (data: User[]) => void;
+  setOnlineUsers: (data: Map<string, SocketUser>) => void;
 }
 enum Types {
   AuthStore = "chessmate-auth-store",
 }
-export { type AuthState, type User, Types, type SocketStore };
+export { type AuthState, type User, Types, type SocketStore, type SocketUser };

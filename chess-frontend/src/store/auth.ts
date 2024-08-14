@@ -14,7 +14,7 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
   socket: null,
   onlineUsers: null,
   getOnlineUsersLength: () => {
-    return get().onlineUsers?.length;
+    return get().onlineUsers?.size;
   },
   setOnlineUsers(data) {
     set({

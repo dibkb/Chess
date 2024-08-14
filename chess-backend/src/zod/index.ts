@@ -24,7 +24,7 @@ const handleZodParsingError = (error: unknown, res: Response) => {
     });
   }
 };
-const userIdSchema = z.array(z.string());
+const userIdSchema = z.union([z.string(), z.array(z.string())]);
 export {
   signUpSchema,
   type SignUpBody,

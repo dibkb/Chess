@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import ErrorPage from "./screens/ErrorPage";
+import { fetchUserData } from "./api/fetchData";
 
 function App() {
   const navigate = useNavigate();
@@ -32,7 +33,9 @@ function App() {
     socket?.on(SocketMessage.LogoutUser, () => {
       onOpen();
     });
-    socket?.on(SocketMessage.OnlinePlayers, (data: OnlinePlayers[]) => {});
+    socket?.on(SocketMessage.OnlinePlayers, (data: OnlinePlayers[]) => {
+      fetchUserData(data);
+    });
   }, [socket]);
   return (
     <>
