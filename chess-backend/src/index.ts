@@ -30,10 +30,17 @@ const io = new Server(expressServer, {
   },
 });
 // connection
-console.log(SocketManagerInstance.getAllOnlineusers());
 io.on("connection", (socket) => {
   // emit-all online users
   socket.on(Socket.Connect, (user_id) => {
+    if (SocketManagerInstance.userOnline(user_id)) {
+      // user is already connected- remove old socket
+      const socket = SocketManagerInstance.getUserSocket(user_id);
+      if (socket) {
+        io.to(socket).emit(Socket.LogoutUser);
+      }
+    }
+    console.log("new socket", socket.id);
     SocketManagerInstance.connectUser(user_id, socket.id);
     const onlineUsers = SocketManagerInstance.getAllOnlineusers();
     console.log("c0nnet", onlineUsers);

@@ -12,6 +12,15 @@ class SocketManager {
     }
     return this.instance;
   }
+  // if user online
+  public userOnline(id: string): boolean {
+    return this.online.has(id);
+  }
+  public getUserSocket(id: string) {
+    if (this.userOnline(id)) {
+      return this.online.get(id);
+    }
+  }
   // connect user
   public connectUser(id: string, socket: string): void {
     if (this.online.has(id)) {

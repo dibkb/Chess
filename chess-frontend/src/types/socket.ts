@@ -6,6 +6,7 @@ enum SocketMessage {
   Typing = "Typing",
   StoppedTyping = "StoppedTyping",
   OnlinePlayers = "OnlinePlayers",
+  LogoutUser = "LogoutUser",
 }
 
 export { SocketMessage };

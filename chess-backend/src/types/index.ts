@@ -9,6 +9,7 @@ enum Socket {
   Typing = "Typing",
   StoppedTyping = "StoppedTyping",
   OnlinePlayers = "OnlinePlayers",
+  LogoutUser = "LogoutUser",
 }
 interface OnlinePlayer {
   id: string;

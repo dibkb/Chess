@@ -1,3 +1,4 @@
+import { Socket } from "socket.io-client";
 import { SocketMessage } from "./socket";
 
 interface User {
@@ -12,10 +13,14 @@ interface AuthState {
   user: User | null;
   setUser: (user: User) => void;
   isConnected: boolean;
+  isLoggedIn: boolean;
   socketId: string | null;
   clearUser: () => void;
   connect: () => void;
+  initSocket: () => void;
   disconnect: () => void;
+  logoutUser: () => void;
+  logIn: () => void;
   sendMessage: ({
     socketEvent,
     data,

@@ -3,19 +3,70 @@ import Landingpage from "./screens/Landingpage";
 import { Join } from "./screens/Joinpage";
 import Lobby from "./screens/Lobby";
 import { useEffect } from "react";
-import { useAuthStore } from "./store/auth";
+import { useAuthStore, useSocketStore } from "./store/auth";
+import { SocketMessage } from "./types/socket";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+
 function App() {
-  const { connect, disconnect } = useAuthStore((state) => state);
+  const { connect, disconnect, logoutUser } = useAuthStore((state) => state);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { socket } = useSocketStore((state) => state);
   useEffect(() => {
     connect();
     return () => disconnect();
   }, []);
+  useEffect(() => {
+    socket?.on(SocketMessage.LogoutUser, () => {
+      onOpen();
+    });
+  }, [socket]);
   return (
-    <Routes>
-      <Route path="/" element={<Landingpage />} />
-      <Route path="/join" element={<Join />} />
-      <Route path="/lobby" element={<Lobby />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Landingpage />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/lobby" element={<Lobby />} />
+      </Routes>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        backdrop="blur"
+        isKeyboardDismissDisabled={true}
+        placement="center"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Logout</ModalHeader>
+              <ModalBody>
+                Another user is trying to login via the same account
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="danger"
+                  variant="flat"
+                  onPress={() => {
+                    logoutUser();
+                    onClose();
+                  }}
+                >
+                  Logout
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
 

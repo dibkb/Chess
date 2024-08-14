@@ -28,7 +28,9 @@ interface ModalContent {
 }
 
 export function Join() {
-  const { setToken, setUser, sendMessage } = useAuthStore((state) => state);
+  const { setToken, setUser, sendMessage, logIn } = useAuthStore(
+    (state) => state
+  );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalContent, setModalContent] = useState<ModalContent | null>(null);
   const [page, setPage] = useState<pageType>("signup");
@@ -107,6 +109,7 @@ export function Join() {
       const { token, user }: { token: string; user: User } = response.payload;
       setUser(user);
       setToken(token);
+      logIn();
       sendMessage({ socketEvent: SocketMessage.Connect, data: user.id });
       return navigate("/lobby");
     }

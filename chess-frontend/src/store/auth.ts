@@ -4,7 +4,10 @@ import { Types, type AuthState, type User } from "../types/zustand";
 import { io, Socket } from "socket.io-client";
 import { SocketMessage } from "../types/socket";
 
-const socket: Socket = io("ws://localhost:3000");
+// Create a separate store for non-persisted state
+export const useSocketStore = create<{ socket: Socket | null }>(() => ({
+  socket: null,
+}));
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -12,32 +15,55 @@ export const useAuthStore = create<AuthState>()(
       // token state
       token: null,
       clearToken: () => set({ token: null }),
-      setToken: (token: string) => set({ token: token }),
+      setToken: (token: string) => set({ token }),
       //  signed-in user-state
       user: null,
       setUser: (newUser: User) => set({ user: newUser }),
       clearUser: () => set({ user: null }),
       isConnected: false,
+      isLoggedIn: false,
+      logIn: () => set({ isLoggedIn: true }),
+      logoutUser: () => {
+        set({
+          isConnected: false,
+          user: null,
+          token: null,
+          socketId: null,
+          isLoggedIn: false,
+        });
+      },
       socketId: null,
-      connect: () => {
-        socket.connect();
+      initSocket: () => {
+        const socket = io("ws://localhost:3000");
+        useSocketStore.setState({ socket });
         socket.on("connect", () => {
           set({ isConnected: true, socketId: socket.id });
+          socket.emit(SocketMessage.Connect, get().user?.id);
         });
-        socket.emit(SocketMessage.Connect, get().user?.id);
+
         socket.on("disconnect", () => {
           set({ isConnected: false, socketId: null });
         });
       },
+      connect: () => {
+        const { socket } = useSocketStore.getState();
+        if (!socket) {
+          get().initSocket();
+        } else {
+          socket.connect();
+        }
+      },
       disconnect: () => {
-        socket.disconnect();
+        const { socket } = useSocketStore.getState();
+        socket?.disconnect();
         set({
           isConnected: false,
           socketId: null,
         });
       },
       sendMessage: ({ socketEvent, data }) => {
-        if (get().isConnected) {
+        const { socket } = useSocketStore.getState();
+        if (get().isConnected && socket) {
           socket.emit(socketEvent, data);
         }
       },
