@@ -21,13 +21,12 @@ class SocketManager {
       return this.online.get(id);
     }
   }
+  public removeUser(id: string) {
+    this.online.delete(id);
+  }
   // connect user
   public connectUser(id: string, socket: string): void {
-    if (this.online.has(id)) {
-      // user already-present
-    } else {
-      this.online.set(id, socket);
-    }
+    this.online.set(id, socket);
   }
   // disconnect-user
   public disconnectSocket(socket: string) {

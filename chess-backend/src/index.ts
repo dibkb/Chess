@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
     SocketManagerInstance.disconnectSocket(socket.id);
     // all online users
     const onlineUsers = SocketManagerInstance.getAllOnlineusers();
-    console.log("disconnect", onlineUsers);
+    console.log("after disconnect online users", onlineUsers);
     io.emit(Socket.OnlinePlayers, onlineUsers);
   });
 });

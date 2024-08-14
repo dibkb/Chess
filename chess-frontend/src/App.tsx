@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Landingpage from "./screens/Landingpage";
 import { Join } from "./screens/Joinpage";
 import Lobby from "./screens/Lobby";
@@ -18,6 +18,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import ErrorPage from "./screens/ErrorPage";
 
 function App() {
+  const navigate = useNavigate();
   const { connect, disconnect, logoutUser, isLoggedIn } = useAuthStore(
     (state) => state
   );
@@ -66,6 +67,7 @@ function App() {
                   onPress={() => {
                     logoutUser();
                     onClose();
+                    return navigate("/join");
                   }}
                 >
                   Logout

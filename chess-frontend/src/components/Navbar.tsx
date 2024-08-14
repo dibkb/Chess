@@ -24,7 +24,7 @@ import { Setting } from "../svg/Setting";
 import Logout from "../svg/Logout";
 
 export function NavbarComp() {
-  const { token, user } = useAuthStore((state) => state);
+  const { token, user, logoutUser } = useAuthStore((state) => state);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -39,6 +39,10 @@ export function NavbarComp() {
     e ? setTheme("dark") : setTheme("light");
   };
   const isLoggedIn = token !== null && user !== null;
+  function logoutHandler() {
+    logoutUser();
+    return navigate("/join");
+  }
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
@@ -112,7 +116,7 @@ export function NavbarComp() {
                   My Settings
                 </p>
               </DropdownItem>
-              <DropdownItem key="logout" color="danger">
+              <DropdownItem key="logout" color="danger" onPress={logoutHandler}>
                 <p className="flex items-center gap-1">
                   <Logout />
                   Log Out

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 
 export const ProtectedRoute = () => {
@@ -10,5 +10,5 @@ export const ProtectedRoute = () => {
       return navigate("/join");
     }
   }, []);
-  return <div>ProtectedRoute</div>;
+  return <Outlet />;
 };
