@@ -34,17 +34,19 @@ io.on("connection", (socket) => {
   // emit-all online users
   socket.on(Socket.Connect, (user_id) => {
     if (SocketManagerInstance.userOnline(user_id)) {
-      // user is already connected- remove old socket
+      // user is already connected remove old socket
       const socket = SocketManagerInstance.getUserSocket(user_id);
       if (socket) {
         io.to(socket).emit(Socket.LogoutUser);
       }
     }
-    console.log("new socket", socket.id);
-    SocketManagerInstance.connectUser(user_id, socket.id);
-    const onlineUsers = SocketManagerInstance.getAllOnlineusers();
-    console.log("c0nnet", onlineUsers);
-    io.emit(Socket.OnlinePlayers, onlineUsers);
+    console.log("new user", user_id, socket.id);
+    if (user_id) {
+      SocketManagerInstance.connectUser(user_id, socket.id);
+      const onlineUsers = SocketManagerInstance.getAllOnlineusers();
+      console.log("c0nnet", onlineUsers);
+      io.emit(Socket.OnlinePlayers, onlineUsers);
+    }
   });
   // message
   socket.on(Socket.Message, (mess) => {

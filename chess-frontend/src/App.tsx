@@ -16,13 +16,15 @@ import {
 } from "@nextui-org/react";
 
 function App() {
-  const { connect, disconnect, logoutUser } = useAuthStore((state) => state);
+  const { connect, disconnect, logoutUser, isLoggedIn } = useAuthStore(
+    (state) => state
+  );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { socket } = useSocketStore((state) => state);
   useEffect(() => {
-    connect();
+    if (isLoggedIn) connect();
     return () => disconnect();
-  }, []);
+  }, [isLoggedIn]);
   useEffect(() => {
     socket?.on(SocketMessage.LogoutUser, () => {
       onOpen();
