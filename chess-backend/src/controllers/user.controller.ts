@@ -101,7 +101,7 @@ const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
     }
     let userData;
     if (typeof userIds === "string") {
-      userData = await Promise.resolve(getUserByUserId(userIds));
+      userData = [await Promise.resolve(getUserByUserId(userIds))];
     } else {
       userData = await Promise.all(userIds.map((id) => getUserByUserId(id)));
     }

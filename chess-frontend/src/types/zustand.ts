@@ -35,7 +35,6 @@ interface SocketUser extends User {
 interface SocketStore {
   socket: Socket | null;
   onlineUsers: Map<string, SocketUser> | null;
-  getOnlineUsersLength: () => void;
   setOnlineUsers: (data: Map<string, SocketUser>) => void;
 }
 enum Types {

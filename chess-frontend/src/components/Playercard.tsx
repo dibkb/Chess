@@ -1,13 +1,14 @@
 import { Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import XmarkIcon from "../svg/XmarkIcon";
 import CheckIcon from "../svg/CheckIcon";
+import { SocketUser } from "../types/zustand";
 
-export default function Playercard() {
+export default function Playercard({ username, profilePic }: SocketUser) {
   return (
     <Card className="py-4 w-full">
       <CardHeader className="pb-0 pt-2 px-4 flex-col gap-1 items-start">
         <span className="font-bold text-large flex items-center gap-2">
-          Jane Doe
+          {username}
         </span>
         <p className="text-tiny uppercase font-medium">👑 3 win streak</p>
         <div className="flex items-center gap-2">
@@ -23,7 +24,7 @@ export default function Playercard() {
         <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src="https://nextui.org/images/hero-card-complete.jpeg"
+          src={profilePic}
         />
         <Button color="primary" variant="light" className="font-medium">
           Challenge

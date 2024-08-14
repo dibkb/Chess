@@ -16,7 +16,7 @@ export const fetchUserData = async (input: OnlinePlayers[]): Promise<void> => {
     }
   });
 
-  // If no users to fetch, return empty map
+  // If no users to fetch
   if (userIds.size === 0) {
     return;
   }
