@@ -6,10 +6,11 @@ import {
   signUpSchema,
   signInSchema,
   handleZodParsingError,
+  userIdSchema,
 } from "../zod";
 import { prisma } from "..";
 import { comparePassword, getHash } from "../service/bcrypt";
-import { getUserByUsername } from "../service/user.service";
+import { getUserByUserId, getUserByUsername } from "../service/user.service";
 import { makeToken } from "../service/jwt";
 
 // signup-user
@@ -91,4 +92,26 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
-export { signUpUser, signInUser };
+
+const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userIds = userIdSchema.parse(req.query.userId);
+    if (!userIds) {
+      return res.status(401).json("No userId provided");
+    }
+    const userInfo = userIds.map((id) => getUserByUserId(id));
+    const usersData = await Promise.all(userInfo);
+    return res.status(200).json({
+      users: usersData,
+    });
+
+    //
+  } catch (e) {
+    const error = e as Error;
+    return res.status(400).json({
+      message: error.message,
+      name: error.name,
+    });
+  }
+};
+export { signUpUser, signInUser, getUserInfo };

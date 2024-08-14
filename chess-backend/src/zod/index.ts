@@ -24,10 +24,12 @@ const handleZodParsingError = (error: unknown, res: Response) => {
     });
   }
 };
+const userIdSchema = z.array(z.string());
 export {
   signUpSchema,
   type SignUpBody,
   type SignInBody,
   signInSchema,
   handleZodParsingError,
+  userIdSchema,
 };
