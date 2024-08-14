@@ -59,15 +59,17 @@ export function NavbarComp() {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link
-            color="foreground"
-            onClick={() => navigate("/lobby")}
-            className="cursor-pointer"
-          >
-            Lobby
-          </Link>
-        </NavbarItem>
+        {isLoggedIn && (
+          <NavbarItem>
+            <Link
+              color="foreground"
+              onClick={() => navigate("/lobby")}
+              className="cursor-pointer"
+            >
+              Lobby
+            </Link>
+          </NavbarItem>
+        )}
       </NavbarContent>
       <NavbarContent as="div" justify="end">
         <NavbarItem>

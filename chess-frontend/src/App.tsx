@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Landingpage from "./screens/Landingpage";
 import { Join } from "./screens/Joinpage";
 import Lobby from "./screens/Lobby";
@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import ErrorPage from "./screens/ErrorPage";
 
 function App() {
   const { connect, disconnect, logoutUser, isLoggedIn } = useAuthStore(
@@ -40,6 +41,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/lobby" element={<Lobby />} />
         </Route>
+        {/* Catch-all route for 404 */}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Modal
         isOpen={isOpen}
