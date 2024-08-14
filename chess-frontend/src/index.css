@@ -26,5 +26,5 @@ body {
   font-family: "Cutive Mono", monospace;
 }
 .grid-fit {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  grid-template-columns: repeat(auto-fit, 300px);
 }

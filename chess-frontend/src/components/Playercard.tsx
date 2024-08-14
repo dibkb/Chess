@@ -21,11 +21,22 @@ export default function Playercard({ username, profilePic }: SocketUser) {
         </div>
       </CardHeader>
       <CardBody className="overflow-visible py-2 flex flex-col gap-3">
-        <Image
-          alt="Card background"
-          className="object-cover rounded-xl"
-          src={profilePic}
-        />
+        {profilePic ? (
+          <Image
+            width={300}
+            height={300}
+            alt={username + "profile pic"}
+            className="object-cover rounded-xl bg-red-200"
+            src={profilePic}
+          />
+        ) : (
+          <div className="w-full h-[300px] rounded-xl bg-foreground-100 flex items-center">
+            <p className="text-center w-full cutive text-foreground-500">
+              No profile pic
+            </p>
+          </div>
+        )}
+
         <Button color="primary" variant="light" className="font-medium">
           Challenge
         </Button>
