@@ -4,7 +4,7 @@ import { Join } from "./screens/Joinpage";
 import Lobby from "./screens/Lobby";
 import { useEffect } from "react";
 import { useAuthStore, useSocketStore } from "./store/auth";
-import { SocketMessage } from "./types/socket";
+import { OnlinePlayers, SocketMessage } from "./types/socket";
 import {
   Button,
   Modal,
@@ -32,6 +32,7 @@ function App() {
     socket?.on(SocketMessage.LogoutUser, () => {
       onOpen();
     });
+    socket?.on(SocketMessage.OnlinePlayers, (data: OnlinePlayers[]) => {});
   }, [socket]);
   return (
     <>

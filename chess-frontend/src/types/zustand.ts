@@ -29,8 +29,13 @@ interface AuthState {
     data: unknown;
   }) => void;
 }
-
+interface SocketStore {
+  socket: Socket | null;
+  onlineUsers: User[] | null;
+  getOnlineUsersLength: () => void;
+  setOnlineUsers: (data: User[]) => void;
+}
 enum Types {
   AuthStore = "chessmate-auth-store",
 }
-export { type AuthState, type User, Types };
+export { type AuthState, type User, Types, type SocketStore };

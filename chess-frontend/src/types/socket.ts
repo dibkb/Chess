@@ -8,5 +8,5 @@ enum SocketMessage {
   OnlinePlayers = "OnlinePlayers",
   LogoutUser = "LogoutUser",
 }
-
-export { SocketMessage };
+type OnlinePlayers = [string, string];
+export { SocketMessage, type OnlinePlayers };

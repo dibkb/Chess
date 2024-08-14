@@ -1,12 +1,26 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { Types, type AuthState, type User } from "../types/zustand";
-import { io, Socket } from "socket.io-client";
+import {
+  Types,
+  type AuthState,
+  type User,
+  type SocketStore,
+} from "../types/zustand";
+import { io } from "socket.io-client";
 import { SocketMessage } from "../types/socket";
 
 // Create a separate store for non-persisted state
-export const useSocketStore = create<{ socket: Socket | null }>(() => ({
+export const useSocketStore = create<SocketStore>((set, get) => ({
   socket: null,
+  onlineUsers: null,
+  getOnlineUsersLength: () => {
+    return get().onlineUsers?.length;
+  },
+  setOnlineUsers(data) {
+    set({
+      onlineUsers: data,
+    });
+  },
 }));
 
 export const useAuthStore = create<AuthState>()(
