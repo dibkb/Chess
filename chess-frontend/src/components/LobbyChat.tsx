@@ -10,13 +10,13 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat } from "../types/chat";
 import { MessageBodyOwner, MessageBodyUser } from "./MessageBody";
 import { AvatarGroupPreview } from "./AvatarGroup";
-import { useAuthStore, useSocketStore } from "../store/auth";
+import { useAuthStore, useMessageStore, useSocketStore } from "../store/auth";
 import { SocketMessage } from "../types/socket";
 
 const LobbyChat = () => {
   const { sendMessage } = useAuthStore();
+  const { messageHistory, addMessage } = useMessageStore();
   const { socket } = useSocketStore();
-  const [messageHistory, setMessageHistory] = useState<Chat[]>([]);
   const [message, setMessage] = useState("");
   function submitMessageHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,13 +25,7 @@ const LobbyChat = () => {
         owner: "me",
         message,
       };
-      setMessageHistory((prev) => {
-        if (prev) {
-          return [...prev, newMessage];
-        } else {
-          return [newMessage];
-        }
-      });
+      addMessage(newMessage);
       sendMessage({
         socketEvent: SocketMessage.Message,
         data: message,
@@ -45,24 +39,6 @@ const LobbyChat = () => {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
   }, [messageHistory]);
-  useEffect(() => {
-    if (socket) {
-      socket.on(SocketMessage.Message, (data) => {
-        const newMessage: Chat = {
-          owner: "other",
-          message: data?.message,
-          socketId: data?.socketId,
-        };
-        setMessageHistory((prev) => {
-          if (prev) {
-            return [...prev, newMessage];
-          } else {
-            return [newMessage];
-          }
-        });
-      });
-    }
-  }, [socket]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   return (
     <Card isFooterBlurred className="w-full relative">

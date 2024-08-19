@@ -5,6 +5,7 @@ import {
   type AuthState,
   type User,
   type SocketStore,
+  MessageStore,
 } from "../types/zustand";
 import { io } from "socket.io-client";
 import { SocketMessage } from "../types/socket";
@@ -18,6 +19,16 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
       onlineUsers: data,
     });
   },
+}));
+
+export const useMessageStore = create<MessageStore>((set, get) => ({
+  messageHistory: [],
+  addMessage: (message) => {
+    set((state) => ({
+      messageHistory: [...state.messageHistory, message],
+    }));
+  },
+  clearMessages: () => set({ messageHistory: [] }),
 }));
 
 export const useAuthStore = create<AuthState>()(

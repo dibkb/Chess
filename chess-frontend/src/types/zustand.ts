@@ -1,5 +1,6 @@
 import { Socket } from "socket.io-client";
 import { SocketMessage } from "./socket";
+import { Chat } from "./chat";
 
 interface User {
   id: string;
@@ -37,7 +38,19 @@ interface SocketStore {
   onlineUsers: Map<string, SocketUser> | null;
   setOnlineUsers: (data: Map<string, SocketUser>) => void;
 }
+interface MessageStore {
+  messageHistory: Chat[];
+  addMessage: (message: Chat) => void;
+  clearMessages: () => void;
+}
 enum Types {
   AuthStore = "chessmate-auth-store",
 }
-export { type AuthState, type User, Types, type SocketStore, type SocketUser };
+export {
+  type AuthState,
+  type User,
+  Types,
+  type SocketStore,
+  type SocketUser,
+  type MessageStore,
+};

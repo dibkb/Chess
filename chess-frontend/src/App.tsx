@@ -3,7 +3,7 @@ import Landingpage from "./screens/Landingpage";
 import { Join } from "./screens/Joinpage";
 import Lobby from "./screens/Lobby";
 import { useEffect } from "react";
-import { useAuthStore, useSocketStore } from "./store/auth";
+import { useAuthStore, useMessageStore, useSocketStore } from "./store/auth";
 import { OnlinePlayers, SocketMessage } from "./types/socket";
 import {
   Button,
@@ -17,6 +17,7 @@ import {
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import ErrorPage from "./screens/ErrorPage";
 import { fetchUserData } from "./api/fetchData";
+import { Chat } from "./types/chat";
 
 function App() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function App() {
   );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { socket } = useSocketStore((state) => state);
+  const { addMessage } = useMessageStore();
   useEffect(() => {
     if (isLoggedIn) connect();
     return () => disconnect();
@@ -36,6 +38,16 @@ function App() {
     socket?.on(SocketMessage.OnlinePlayers, (data: OnlinePlayers[]) => {
       fetchUserData(data);
     });
+    if (socket) {
+      socket.on(SocketMessage.Message, (data) => {
+        const newMessage: Chat = {
+          owner: "other",
+          message: data?.message,
+          socketId: data?.socketId,
+        };
+        addMessage(newMessage);
+      });
+    }
   }, [socket]);
   return (
     <>
