@@ -12,11 +12,13 @@ import { MessageBodyOwner, MessageBodyUser } from "./MessageBody";
 import { AvatarGroupPreview } from "./AvatarGroup";
 import { useAuthStore, useMessageStore, useSocketStore } from "../store/auth";
 import { SocketMessage } from "../types/socket";
+import { AvatarTyping } from "./AvatarTyping";
 
 const LobbyChat = () => {
   const { sendMessage } = useAuthStore();
   const { messageHistory, addMessage } = useMessageStore();
   const { socket } = useSocketStore();
+  const [typingSockets, setTypingSockets] = useState<Set<string>>(new Set());
   const [message, setMessage] = useState("");
   function submitMessageHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,6 +41,19 @@ const LobbyChat = () => {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
   }, [messageHistory]);
+  // Typing and not typing
+  useEffect(() => {
+    socket?.on(SocketMessage.Typing, (data) => {
+      setTypingSockets(data.socketId);
+    });
+    socket?.on(SocketMessage.StoppedTyping, (data) => {
+      setTypingSockets((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(data.socketId);
+        return newSet;
+      });
+    });
+  }, [socket]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   return (
     <Card isFooterBlurred className="w-full relative">
@@ -64,6 +79,11 @@ const LobbyChat = () => {
               );
             }
           })}
+          {typingSockets.size ? (
+            <AvatarTyping typingSockets={typingSockets} />
+          ) : (
+            ""
+          )}
         </div>
       </CardBody>
       <CardFooter className="absolute bottom-0 w-full bg-foreground-100 h-16">

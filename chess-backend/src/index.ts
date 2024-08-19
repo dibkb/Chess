@@ -57,11 +57,17 @@ io.on("connection", (socket) => {
   });
   // typing
   socket.on(Socket.Typing, () => {
-    socket.broadcast.emit(Socket.Typing);
+    socket.broadcast.emit(Socket.Typing, {
+      message: Socket.Typing,
+      socketId: socket.id,
+    });
   });
   // not-typing
   socket.on(Socket.StoppedTyping, () => {
-    socket.broadcast.emit(Socket.StoppedTyping);
+    socket.broadcast.emit(Socket.StoppedTyping, {
+      message: Socket.StoppedTyping,
+      socketId: socket.id,
+    });
   });
   // challenge
   socket.on(Socket.Challenge, ({ user_id, opponent_id }) => {
