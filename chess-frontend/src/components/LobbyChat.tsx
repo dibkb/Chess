@@ -12,6 +12,7 @@ import {
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat } from "../types/chat";
 import { MessageBodyOwner, MessageBodyUser } from "./MessageBody";
+import { AvatarGroupPreview } from "./AvatarGroup";
 
 const LobbyChat = () => {
   const [messageHistory, setMessageHistory] = useState<Chat[]>([
@@ -53,14 +54,7 @@ const LobbyChat = () => {
   return (
     <Card isFooterBlurred className="w-full relative">
       <CardHeader className="flex gap-3 p-4">
-        <AvatarGroup isBordered>
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-        </AvatarGroup>
+        <AvatarGroupPreview />
       </CardHeader>
       <Divider />
       <CardBody className="h-[600px] relative overflow-y-scroll p-0">

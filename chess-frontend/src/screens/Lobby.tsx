@@ -8,7 +8,6 @@ import { useSocketStore } from "../store/auth";
 export default function Lobby() {
   const [selected, setSelected] = useState<selected>("lobby");
   const { onlineUsers } = useSocketStore((state) => state);
-  console.log(onlineUsers);
   return (
     <div className="mt-4 flex flex-col gap-8">
       <div className="flex flex-col lg:flex-row items-center gap-4 justify-between">
@@ -47,7 +46,7 @@ export default function Lobby() {
               })}
             </main>
           ) : (
-            "Loading"
+            "No players online"
           )}
         </Tab>
         <Tab key="chat" title="Chat">
