@@ -1,8 +1,6 @@
-import { User } from "./zustand";
-
 interface Chat {
   owner: "other" | "me";
-  user?: User;
+  socketId?: string;
   message: string;
 }
 export type { Chat };

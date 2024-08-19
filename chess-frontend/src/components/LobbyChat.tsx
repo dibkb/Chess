@@ -1,31 +1,22 @@
 import {
-  Avatar,
-  AvatarGroup,
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  divider,
   Divider,
 } from "@nextui-org/react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat } from "../types/chat";
 import { MessageBodyOwner, MessageBodyUser } from "./MessageBody";
 import { AvatarGroupPreview } from "./AvatarGroup";
+import { useAuthStore, useSocketStore } from "../store/auth";
+import { SocketMessage } from "../types/socket";
 
 const LobbyChat = () => {
-  const [messageHistory, setMessageHistory] = useState<Chat[]>([
-    {
-      message:
-        "Your Lordship 👑, I see that the issue might be related to when the scrollIntoView function is called in relation to the message list update. The problem might be that the scrollIntoView function is being called before the DOM has updated with the new message, so the scroll isn't happening as expected.",
-      owner: "other",
-    },
-    {
-      message: "Your Lordship 👑",
-      owner: "other",
-    },
-  ]);
+  const { sendMessage } = useAuthStore();
+  const { socket } = useSocketStore();
+  const [messageHistory, setMessageHistory] = useState<Chat[]>([]);
   const [message, setMessage] = useState("");
   function submitMessageHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,6 +32,10 @@ const LobbyChat = () => {
           return [newMessage];
         }
       });
+      sendMessage({
+        socketEvent: SocketMessage.Message,
+        data: message,
+      });
       setMessage("");
     }
   }
@@ -50,6 +45,24 @@ const LobbyChat = () => {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
   }, [messageHistory]);
+  useEffect(() => {
+    if (socket) {
+      socket.on(SocketMessage.Message, (data) => {
+        const newMessage: Chat = {
+          owner: "other",
+          message: data?.message,
+          socketId: data?.socketId,
+        };
+        setMessageHistory((prev) => {
+          if (prev) {
+            return [...prev, newMessage];
+          } else {
+            return [newMessage];
+          }
+        });
+      });
+    }
+  }, [socket]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   return (
     <Card isFooterBlurred className="w-full relative">
@@ -64,7 +77,11 @@ const LobbyChat = () => {
         >
           {messageHistory?.map((mess, id) => {
             if (mess.owner === "other") {
-              return <MessageBodyUser key={id}>{mess.message}</MessageBodyUser>;
+              return (
+                <MessageBodyUser key={id} socketId={mess.socketId}>
+                  {mess.message}
+                </MessageBodyUser>
+              );
             } else {
               return (
                 <MessageBodyOwner key={id}>{mess.message}</MessageBodyOwner>

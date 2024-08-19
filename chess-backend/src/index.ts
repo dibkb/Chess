@@ -50,7 +50,10 @@ io.on("connection", (socket) => {
   });
   // message
   socket.on(Socket.Message, (mess) => {
-    socket.broadcast.emit(Socket.Message, mess);
+    socket.broadcast.emit(Socket.Message, {
+      message: mess,
+      socketId: socket.id,
+    });
   });
   // typing
   socket.on(Socket.Typing, () => {
