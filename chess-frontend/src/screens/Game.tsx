@@ -17,7 +17,7 @@ const Game = () => {
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
   const [from, setFrom] = useState<null | Square>(null);
-
+  console.log(gameTheme);
   return (
     <div className="min-h-[calc(100vh-64px)] grid grid-cols-12">
       <div className="col-span-3 flex items-center justify-center flex-col gap-3">
@@ -27,6 +27,7 @@ const Game = () => {
         <section className="w-min">
           <main className={cn("relative", blackFacing && "rotate-180")}>
             {board.map((row, i) => {
+              const color = GameThemeValues[gameTheme];
               return (
                 <div key={i} className="flex">
                   {row.map((square, j) => {
@@ -34,11 +35,11 @@ const Game = () => {
                     return (
                       <div
                         key={j}
-                        className={`w-24 h-24 ${
-                          (i + j) % 2 === 0
-                            ? `bg-[${GameThemeValues[gameTheme].light}]`
-                            : `bg-[${GameThemeValues[gameTheme].dark}]`
-                        }`}
+                        className={`w-24 h-24`}
+                        style={{
+                          backgroundColor:
+                            (i + j) % 2 === 0 ? color.light : color.dark,
+                        }}
                       >
                         <div className="w-full justify-center flex h-full">
                           <div

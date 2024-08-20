@@ -11,5 +11,14 @@ export type Piece =
   | "wp"
   | "wq"
   | "wr";
-type gameTheme = "Milan" | "Barcelona" | "New York" | "Rio" | "Sydney";
+type gameTheme =
+  | "Milan"
+  | "Barcelona"
+  | "New York"
+  | "Rio"
+  | "Geneva"
+  | "Sydney"
+  | "Tokyo"
+  | "Manchester"
+  | "Reykjavík";
 export { type gameTheme };

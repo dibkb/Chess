@@ -143,7 +143,6 @@ export const WK = () => {
     </svg>
   );
 };
-
 export const WN = () => {
   return (
     <svg
@@ -198,7 +197,6 @@ export const WQ = () => {
     </svg>
   );
 };
-
 export const WR = () => {
   return (
     <svg
