@@ -1,6 +1,6 @@
-import { SvgProps } from "../types";
+import { SVGProps } from "../types/svg";
 
-export default function XmarkIcon(props: SvgProps) {
+export default function XmarkIcon(props: SVGProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

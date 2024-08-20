@@ -1,5 +1,6 @@
-import { SvgProps } from "../types";
-interface SearchIconProps extends SvgProps {
+import { SVGProps } from "../types/svg";
+
+interface SearchIconProps extends SVGProps {
   size: number;
 }
 export const SearchIcon = ({

@@ -1,6 +1,6 @@
-import { SvgProps } from "../types";
+import { SVGProps } from "../types/svg";
 
-export const SunIcon = (props: SvgProps) => (
+export const SunIcon = (props: SVGProps) => (
   <svg
     aria-hidden="true"
     focusable="false"

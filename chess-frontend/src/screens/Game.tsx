@@ -19,7 +19,7 @@ const Game = () => {
 
   return (
     <div className="min-h-[calc(100vh-64px)] grid grid-cols-12">
-      <div className="col-span-3 flex items-center justify-center">
+      <div className="col-span-3 flex items-center justify-center flex-col gap-3">
         <GameOptions />
       </div>
       <div className="col-span-9 flex items-center justify-center">
@@ -60,7 +60,7 @@ const Game = () => {
                     key={i}
                     className="w-12 h-24 flex items-center justify-center rotate-180"
                   >
-                    {String.fromCharCode(49 + i)}
+                    {8 - i}
                   </div>
                 ))}
               </div>
@@ -71,7 +71,7 @@ const Game = () => {
                     key={i}
                     className="w-12 h-24 flex items-center justify-center"
                   >
-                    {String.fromCharCode(56 - i)}
+                    {8 - i}
                   </div>
                 ))}
               </div>

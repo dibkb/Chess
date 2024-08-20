@@ -1,6 +1,6 @@
-import { SvgProps } from "../types";
+import { SVGProps } from "../types/svg";
 
-export const MoonIcon = (props: SvgProps) => (
+export const MoonIcon = (props: SVGProps) => (
   <svg
     aria-hidden="true"
     focusable="false"

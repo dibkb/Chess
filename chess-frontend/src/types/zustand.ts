@@ -38,6 +38,7 @@ interface SocketStore {
   gameTheme: gameTheme;
   setGameTheme: (theme: gameTheme) => void;
   blackFacing: boolean;
+  flipFacing: () => void;
   initGame: (data: { color: "b" | "w"; theme?: gameTheme }) => void;
   socket: Socket | null;
   onlineUsers: Map<string, SocketUser> | null;

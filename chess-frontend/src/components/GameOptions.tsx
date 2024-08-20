@@ -3,17 +3,26 @@ import React, { ChangeEvent } from "react";
 import { GameThemeOptions } from "../data/gameTheme";
 import { useSocketStore } from "../store/auth";
 import { gameTheme } from "../types/piece";
+import { Reverse } from "../svg/Reverse";
 
 export const GameOptions = () => {
-  const { setGameTheme } = useSocketStore();
+  const { gameTheme, setGameTheme, flipFacing } = useSocketStore();
   const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const theme = e.target as unknown as gameTheme;
+    const theme = e.target.value as unknown as gameTheme;
     setGameTheme(theme);
   };
   return (
     <>
+      <div
+        onClick={flipFacing}
+        className="p-4 hover:bg-foreground-100 cursor-pointer rounded-md"
+      >
+        <Reverse className="size-9" />
+      </div>
       <Select
-        label="Select an animal"
+        defaultSelectedKeys={"all"}
+        value={gameTheme}
+        label="Choose venue"
         className="max-w-xs"
         onChange={handleSelectionChange}
       >

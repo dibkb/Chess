@@ -1,7 +1,7 @@
 import React from "react";
-import { SvgProps } from "../types";
+import { SVGProps } from "../types/svg";
 
-export const SendIcon = (props: SvgProps) => {
+export const SendIcon = (props: SVGProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

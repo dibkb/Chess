@@ -19,6 +19,11 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
     });
   },
   blackFacing: false,
+  flipFacing: () => {
+    set((state) => ({
+      blackFacing: !state.blackFacing,
+    }));
+  },
   initGame: ({ theme, color }) => {
     set({
       gameTheme: theme,

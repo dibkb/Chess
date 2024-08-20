@@ -1,7 +1,7 @@
 import React from "react";
-import { SvgProps } from "../types";
+import { SVGProps } from "../types/svg";
 
-function EyeSlash(props: SvgProps) {
+function EyeSlash(props: SVGProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

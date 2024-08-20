@@ -1,7 +1,7 @@
 import React from "react";
-import { SvgProps } from "../types";
+import { SVGProps } from "../types/svg";
 
-const Logout = (props: SvgProps) => {
+const Logout = (props: SVGProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
