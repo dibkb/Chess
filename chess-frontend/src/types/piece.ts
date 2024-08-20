@@ -11,3 +11,5 @@ export type Piece =
   | "wp"
   | "wq"
   | "wr";
+type gameTheme = "Milan" | "Barcelona" | "New York" | "Rio" | "Sydney";
+export { type gameTheme };

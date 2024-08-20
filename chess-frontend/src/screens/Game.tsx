@@ -1,36 +1,26 @@
-import React, { useState } from "react";
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEvent,
+  useState,
+} from "react";
 import { Chess, Square } from "chess.js";
 import { Piece } from "../types/piece";
 import { PIECES } from "../chess_assets/minamal";
-import { cn, Select, SelectItem } from "@nextui-org/react";
-export const animals = [
-  { key: "cat", label: "Cat" },
-  { key: "dog", label: "Dog" },
-  { key: "elephant", label: "Elephant" },
-  { key: "lion", label: "Lion" },
-  { key: "tiger", label: "Tiger" },
-  { key: "giraffe", label: "Giraffe" },
-  { key: "dolphin", label: "Dolphin" },
-  { key: "penguin", label: "Penguin" },
-  { key: "zebra", label: "Zebra" },
-  { key: "shark", label: "Shark" },
-  { key: "whale", label: "Whale" },
-  { key: "otter", label: "Otter" },
-  { key: "crocodile", label: "Crocodile" },
-];
+import { cn } from "@nextui-org/react";
+import { GameOptions } from "../components/GameOptions";
+import { useSocketStore } from "../store/auth";
+
 const Game = () => {
+  const { blackFacing } = useSocketStore();
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
   const [from, setFrom] = useState<null | Square>(null);
-  const [blackFacing, setBlackFacing] = useState(true);
+
   return (
     <div className="min-h-[calc(100vh-64px)] grid grid-cols-12">
       <div className="col-span-3 flex items-center justify-center">
-        <Select label="Select an animal" className="max-w-xs">
-          {animals.map((animal) => (
-            <SelectItem key={animal.key}>{animal.label}</SelectItem>
-          ))}
-        </Select>
+        <GameOptions />
       </div>
       <div className="col-span-9 flex items-center justify-center">
         <section className="w-min">
@@ -79,7 +69,7 @@ const Game = () => {
                 {Array.from({ length: 8 }).map((_, i) => (
                   <div
                     key={i}
-                    className="w-12 h-24 flex items-center justify-center rotate-180"
+                    className="w-12 h-24 flex items-center justify-center"
                   >
                     {String.fromCharCode(56 - i)}
                   </div>

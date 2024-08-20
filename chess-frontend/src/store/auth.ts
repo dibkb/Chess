@@ -12,6 +12,19 @@ import { SocketMessage } from "../types/socket";
 
 // Create a separate store for non-persisted state
 export const useSocketStore = create<SocketStore>((set, get) => ({
+  gameTheme: "Milan",
+  setGameTheme: (theme) => {
+    set({
+      gameTheme: theme,
+    });
+  },
+  blackFacing: false,
+  initGame: ({ theme, color }) => {
+    set({
+      gameTheme: theme,
+      blackFacing: color === "b" ? true : false,
+    });
+  },
   socket: null,
   onlineUsers: null,
   setOnlineUsers(data) {

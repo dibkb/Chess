@@ -1,6 +1,7 @@
 import { Socket } from "socket.io-client";
 import { SocketMessage } from "./socket";
 import { Chat } from "./chat";
+import { gameTheme } from "./piece";
 
 interface User {
   id: string;
@@ -34,6 +35,10 @@ interface SocketUser extends User {
   socketId: string;
 }
 interface SocketStore {
+  gameTheme: gameTheme;
+  setGameTheme: (theme: gameTheme) => void;
+  blackFacing: boolean;
+  initGame: (data: { color: "b" | "w"; theme?: gameTheme }) => void;
   socket: Socket | null;
   onlineUsers: Map<string, SocketUser> | null;
   setOnlineUsers: (data: Map<string, SocketUser>) => void;
