@@ -15,9 +15,10 @@ export const GameOptions = () => {
     <>
       <div
         onClick={flipFacing}
-        className="p-4 hover:bg-foreground-100 cursor-pointer rounded-md"
+        className="px-8 py-2 hover:bg-foreground-100 cursor-pointer rounded-md flex flex-col justify-between gap-2 items-center select-none"
       >
         <Reverse className="size-9" />
+        <p className="text-xs text-foreground-400">Flip board</p>
       </div>
       <Select
         defaultSelectedKeys={"all"}

@@ -10,9 +10,10 @@ import { PIECES } from "../chess_assets/minamal";
 import { cn } from "@nextui-org/react";
 import { GameOptions } from "../components/GameOptions";
 import { useSocketStore } from "../store/auth";
+import { GameThemeValues } from "../chess_assets/GameTheme";
 
 const Game = () => {
-  const { blackFacing } = useSocketStore();
+  const { blackFacing, gameTheme } = useSocketStore();
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
   const [from, setFrom] = useState<null | Square>(null);
@@ -34,7 +35,9 @@ const Game = () => {
                       <div
                         key={j}
                         className={`w-24 h-24 ${
-                          (i + j) % 2 === 0 ? "bg-[#ABA093]" : "bg-[#92897D]"
+                          (i + j) % 2 === 0
+                            ? `bg-[${GameThemeValues[gameTheme].light}]`
+                            : `bg-[${GameThemeValues[gameTheme].dark}]`
                         }`}
                       >
                         <div className="w-full justify-center flex h-full">
