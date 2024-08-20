@@ -18,6 +18,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import ErrorPage from "./screens/ErrorPage";
 import { fetchUserData } from "./api/fetchData";
 import { Chat } from "./types/chat";
+import { Game } from "./screens/Game";
 
 function App() {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function App() {
         {/* protected route */}
         <Route element={<ProtectedRoute />}>
           <Route path="/lobby" element={<Lobby />} />
+          <Route path="/game" element={<Game />} />
         </Route>
         {/* Catch-all route for 404 */}
         <Route path="*" element={<ErrorPage />} />
