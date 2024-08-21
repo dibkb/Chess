@@ -6,11 +6,12 @@ import React, {
 } from "react";
 import { Chess, Square } from "chess.js";
 import { Piece } from "../types/piece";
-import { PIECES } from "../chess_assets/minamal";
+import { PIECES_SPIRITS } from "../chess_assets/spirits_piece";
 import { cn } from "@nextui-org/react";
 import { GameOptions } from "../components/GameOptions";
 import { useSocketStore } from "../store/auth";
 import { GameThemeValues } from "../chess_assets/GameTheme";
+import { PIECES_ASTRALS } from "../chess_assets/astral_piece";
 
 const Game = () => {
   const { blackFacing, gameTheme } = useSocketStore();
@@ -48,7 +49,7 @@ const Game = () => {
                               blackFacing && "rotate-180"
                             )}
                           >
-                            {PIECES[number]}
+                            {PIECES_ASTRALS[number]}
                           </div>
                         </div>
                       </div>

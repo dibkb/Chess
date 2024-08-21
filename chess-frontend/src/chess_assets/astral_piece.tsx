@@ -1,7 +1,7 @@
 import { Piece } from "../types/piece";
-import { BB, BK, BN, BP, BQ, BR, WB, WK, WN, WP, WQ, WR } from "./Svgs";
+import { BB, BK, BN, BP, BQ, BR, WB, WK, WN, WP, WQ, WR } from "./astrals";
 
-const PIECES: Record<Piece, React.ReactNode> = {
+const PIECES_ASTRALS: Record<Piece, React.ReactNode> = {
   // black
   bb: <BB />,
   bk: <BK />,
@@ -9,13 +9,12 @@ const PIECES: Record<Piece, React.ReactNode> = {
   bp: <BP />,
   bq: <BQ />,
   br: <BR />,
+  // white
   wb: <WB />,
   wk: <WK />,
   wn: <WN />,
   wp: <WP />,
   wq: <WQ />,
   wr: <WR />,
-
-  // white
 };
-export { PIECES };
+export { PIECES_ASTRALS };
