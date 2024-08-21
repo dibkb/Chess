@@ -16,10 +16,13 @@ type gameTheme =
   | "Barcelona"
   | "New York"
   | "Rio"
+  | "Osaka"
+  | "Munich"
+  | "Dublin"
   | "Geneva"
   | "Sydney"
   | "Tokyo"
   | "Manchester"
   | "Reykjavík";
-type ChessPiece = "Spirits" | "Astrals" | "Norsemen" | "Mythicons";
+type ChessPiece = "Spirits" | "Astrals" | "Norsemen" | "Mythicons" | "Gothic";
 export { type gameTheme, type ChessPiece };
