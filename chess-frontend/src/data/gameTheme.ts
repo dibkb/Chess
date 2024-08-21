@@ -1,4 +1,4 @@
-import { type gameTheme } from "../types/piece";
+import { ChessPiece, type gameTheme } from "../types/piece";
 
 interface GameSelect {
   key: gameTheme;
@@ -14,4 +14,14 @@ export const GameThemeOptions: GameSelect[] = [
   { key: "Sydney", label: "Sydney" },
   { key: "Tokyo", label: "Tokyo" },
   { key: "Reykjavík", label: "Reykjavík" },
+];
+interface PieceSelect {
+  key: ChessPiece;
+  label: ChessPiece;
+}
+export const GamePieceOptions: PieceSelect[] = [
+  { key: "Spirits", label: "Spirits" },
+  { key: "Astrals", label: "Astrals" },
+  { key: "Norsemen", label: "Norsemen" },
+  { key: "Mythicons", label: "Mythicons" },
 ];

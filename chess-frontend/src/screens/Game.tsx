@@ -1,24 +1,17 @@
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEvent,
-  useState,
-} from "react";
+import React, { useState } from "react";
 import { Chess, Square } from "chess.js";
 import { Piece } from "../types/piece";
-import { PIECES_SPIRITS } from "../chess_assets/spirits_piece";
 import { cn } from "@nextui-org/react";
 import { GameOptions } from "../components/GameOptions";
 import { useSocketStore } from "../store/auth";
 import { GameThemeValues } from "../chess_assets/GameTheme";
-import { PIECES_ASTRALS } from "../chess_assets/astral_piece";
+import { GamePiece } from "../chess_assets/Pieces";
 
 const Game = () => {
-  const { blackFacing, gameTheme } = useSocketStore();
+  const { blackFacing, gameTheme, piece } = useSocketStore();
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
   const [from, setFrom] = useState<null | Square>(null);
-  console.log(gameTheme);
   return (
     <div className="min-h-[calc(100vh-64px)] grid grid-cols-12">
       <div className="col-span-3 flex items-center justify-center flex-col gap-3">
@@ -29,6 +22,7 @@ const Game = () => {
           <main className={cn("relative", blackFacing && "rotate-180")}>
             {board.map((row, i) => {
               const color = GameThemeValues[gameTheme];
+              const gamePiece = GamePiece[piece];
               return (
                 <div key={i} className="flex">
                   {row.map((square, j) => {
@@ -49,7 +43,7 @@ const Game = () => {
                               blackFacing && "rotate-180"
                             )}
                           >
-                            {PIECES_ASTRALS[number]}
+                            {gamePiece[number]}
                           </div>
                         </div>
                       </div>

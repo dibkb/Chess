@@ -1,15 +1,20 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import React, { ChangeEvent } from "react";
-import { GameThemeOptions } from "../data/gameTheme";
+import { GameThemeOptions, GamePieceOptions } from "../data/gameTheme";
 import { useSocketStore } from "../store/auth";
-import { gameTheme } from "../types/piece";
+import { ChessPiece, gameTheme } from "../types/piece";
 import { Reverse } from "../svg/Reverse";
 
 export const GameOptions = () => {
-  const { gameTheme, setGameTheme, flipFacing } = useSocketStore();
-  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const { gameTheme, setGameTheme, flipFacing, piece, setPiece } =
+    useSocketStore();
+  const handleVenueChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const theme = e.target.value as unknown as gameTheme;
     setGameTheme(theme);
+  };
+  const handlePieceChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const piece = e.target.value as unknown as ChessPiece;
+    setPiece(piece);
   };
   return (
     <>
@@ -25,9 +30,20 @@ export const GameOptions = () => {
         value={gameTheme}
         label="Choose venue"
         className="max-w-xs"
-        onChange={handleSelectionChange}
+        onChange={handleVenueChange}
       >
         {GameThemeOptions.map((theme) => (
+          <SelectItem key={theme.key}>{theme.label}</SelectItem>
+        ))}
+      </Select>
+      <Select
+        defaultSelectedKeys={"all"}
+        value={piece}
+        label="Choose pieces"
+        className="max-w-xs"
+        onChange={handlePieceChange}
+      >
+        {GamePieceOptions.map((theme) => (
           <SelectItem key={theme.key}>{theme.label}</SelectItem>
         ))}
       </Select>
