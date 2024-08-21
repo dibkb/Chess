@@ -21,4 +21,5 @@ type gameTheme =
   | "Tokyo"
   | "Manchester"
   | "Reykjavík";
-export { type gameTheme };
+type ChessPiece = "Spirits" | "Astrals" | "Norsemen" | "Mythicons";
+export { type gameTheme, type ChessPiece };

@@ -1,7 +1,7 @@
 import { Socket } from "socket.io-client";
 import { SocketMessage } from "./socket";
 import { Chat } from "./chat";
-import { gameTheme } from "./piece";
+import { ChessPiece, gameTheme } from "./piece";
 
 interface User {
   id: string;
@@ -37,6 +37,8 @@ interface SocketUser extends User {
 interface SocketStore {
   gameTheme: gameTheme;
   setGameTheme: (theme: gameTheme) => void;
+  piece: ChessPiece;
+  setPiece: (piece: ChessPiece) => void;
   blackFacing: boolean;
   flipFacing: () => void;
   initGame: (data: { color: "b" | "w"; theme?: gameTheme }) => void;

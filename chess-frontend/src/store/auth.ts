@@ -9,10 +9,17 @@ import {
 } from "../types/zustand";
 import { io } from "socket.io-client";
 import { SocketMessage } from "../types/socket";
+import { ChessPiece } from "../types/piece";
 
 // Create a separate store for non-persisted state
 export const useSocketStore = create<SocketStore>((set, get) => ({
   gameTheme: "Milan",
+  piece: "Spirits",
+  setPiece: (piece: ChessPiece) => {
+    set({
+      piece: piece,
+    });
+  },
   setGameTheme: (theme) => {
     set({
       gameTheme: theme,
