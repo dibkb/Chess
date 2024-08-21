@@ -9,6 +9,9 @@ export const GameThemeOptions: GameSelect[] = [
   { key: "Barcelona", label: "Barcelona" },
   { key: "Geneva", label: "Geneva" },
   { key: "New York", label: "New York" },
+  { key: "Munich", label: "Munich" },
+  { key: "Osaka", label: "Osaka" },
+  { key: "Dublin", label: "Dublin" },
   { key: "Manchester", label: "Manchester" },
   { key: "Rio", label: "Rio" },
   { key: "Sydney", label: "Sydney" },
@@ -20,8 +23,9 @@ interface PieceSelect {
   label: ChessPiece;
 }
 export const GamePieceOptions: PieceSelect[] = [
-  { key: "Spirits", label: "Spirits" },
   { key: "Astrals", label: "Astrals" },
+  { key: "Spirits", label: "Spirits" },
   { key: "Norsemen", label: "Norsemen" },
   { key: "Mythicons", label: "Mythicons" },
+  { key: "Gothic", label: "Gothic" },
 ];

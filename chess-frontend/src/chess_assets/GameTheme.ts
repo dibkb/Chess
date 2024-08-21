@@ -23,6 +23,18 @@ const GameThemeValues: Theme = {
     dark: "#6C6478",
     light: "#877C8E",
   },
+  Dublin: {
+    dark: "#B58863",
+    light: "#F0D9B5",
+  },
+  Munich: {
+    dark: "#676767",
+    light: "#D9D9D9",
+  },
+  Osaka: {
+    dark: "#779954",
+    light: "#E9EDCC",
+  },
   Reykjavík: {
     dark: "#6A7285",
     light: "#838CA2",
