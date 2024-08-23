@@ -71,14 +71,22 @@ io.on("connection", (socket) => {
   });
   // challenge
   socket.on(Socket.Challenge, (data: ChallengeType) => {
-    io.to(data.opponent).emit(Socket.Challenge, data.configuration);
+    const challengedUser = data.opponent;
+    const challengedSocket =
+      SocketManagerInstance.getUserSocket(challengedUser);
+    if (challengedSocket) {
+      io.to(challengedSocket).emit(Socket.Challenge, {
+        challenger: socket.id,
+        ...data.configuration,
+      });
+    }
   });
   // disconnect
   socket.on("disconnect", () => {
     SocketManagerInstance.disconnectSocket(socket.id);
     // all online users
     const onlineUsers = SocketManagerInstance.getAllOnlineusers();
-    console.log("after disconnect online users", onlineUsers);
+    console.log("After disconnect online users", onlineUsers);
     io.emit(Socket.OnlinePlayers, onlineUsers);
   });
 });

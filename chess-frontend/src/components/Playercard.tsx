@@ -24,6 +24,7 @@ export default function Playercard({
   username,
   profilePic,
   socketId,
+  id,
 }: SocketUser) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { socket } = useSocketStore();
@@ -36,7 +37,7 @@ export default function Playercard({
   function challengePlayer() {
     if (socket) {
       socket.emit(SocketMessage.Challenge, {
-        opponent: socketId,
+        opponent: id,
         configuration,
       });
     }
