@@ -26,6 +26,7 @@ export const GamePieceOptions: PieceSelect[] = [
   { key: "Classic", label: "Classic" },
   { key: "Ember", label: "Ember" },
   { key: "Astrals", label: "Astrals" },
+  { key: "Brass", label: "Brass" },
   { key: "Spirits", label: "Spirits" },
   { key: "Norsemen", label: "Norsemen" },
   { key: "Mythicons", label: "Mythicons" },
