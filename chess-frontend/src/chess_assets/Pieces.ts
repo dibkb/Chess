@@ -1,6 +1,7 @@
 import { ChessPiece, Piece } from "../types/piece";
 import { PIECES_ASTRALS } from "./astral_piece";
 import { PIECES_CLASSIC } from "./classic_piece";
+import { PIECES_EMBER } from "./ember_piece";
 import { PIECES_GOTHIC } from "./gothic_piece";
 import { PIECES_MYTHICONS } from "./mythicons_piece";
 import { PIECES_NORSEMEN } from "./norsemen_piece";
@@ -11,6 +12,7 @@ type Theme = {
 };
 const GamePiece: Theme = {
   Classic: PIECES_CLASSIC,
+  Ember: PIECES_EMBER,
   Spirits: PIECES_SPIRITS,
   Astrals: PIECES_ASTRALS,
   Norsemen: PIECES_NORSEMEN,

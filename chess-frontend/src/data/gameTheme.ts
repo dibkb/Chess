@@ -24,6 +24,7 @@ interface PieceSelect {
 }
 export const GamePieceOptions: PieceSelect[] = [
   { key: "Classic", label: "Classic" },
+  { key: "Ember", label: "Ember" },
   { key: "Astrals", label: "Astrals" },
   { key: "Spirits", label: "Spirits" },
   { key: "Norsemen", label: "Norsemen" },

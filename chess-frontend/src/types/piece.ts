@@ -26,6 +26,7 @@ type gameTheme =
   | "Reykjavík";
 type ChessPiece =
   | "Classic"
+  | "Ember"
   | "Spirits"
   | "Astrals"
   | "Norsemen"
