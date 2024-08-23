@@ -137,9 +137,7 @@ function App() {
                     color="success"
                     variant="solid"
                     onPress={() => {
-                      logoutUser();
-                      onClose();
-                      return navigate("/join");
+                      return navigate("/game");
                     }}
                   >
                     Accept Challenge⚔️
