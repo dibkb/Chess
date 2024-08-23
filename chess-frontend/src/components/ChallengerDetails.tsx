@@ -1,18 +1,35 @@
 import { Avatar, cn } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChallengePayload } from "../types/piece";
+import { axiosInstance } from "../api/apiInstance";
+import { User } from "../types/zustand";
 
 export const ChallengerDetails = ({
+  challenger,
   color,
   venue,
   time,
   piece,
 }: ChallengePayload) => {
+  const [challengerProfile, setChallengerProfile] = useState<User>();
+  useEffect(() => {
+    async function getUserInfo() {
+      const response = await axiosInstance.get<{ users: User[] }>(
+        `/user-info?userId=${challenger.userId}`
+      );
+      const data = response.data.users[0];
+      setChallengerProfile(data);
+    }
+    getUserInfo();
+  }, []);
+  console.log(challengerProfile);
   return (
     <main className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <Avatar src="" size="lg" />
-        <p className="font-semibold">{"User"} challenged you </p>
+        <Avatar src={challengerProfile?.profilePic} size="lg" />
+        <p className="font-semibold">
+          {challengerProfile?.username} challenged you{" "}
+        </p>
       </div>
       <div className="flex flex-col gap-2 items-center">
         <p className="cutive text-lg">You will play as </p>
