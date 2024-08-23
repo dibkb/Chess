@@ -1,7 +1,16 @@
 import { cn, Input, Select, SelectItem } from "@nextui-org/react";
 import React, { ChangeEvent, useState } from "react";
-import { ChessPiece, Configuration, gameTheme } from "../../types/piece";
-import { GamePieceOptions, GameThemeOptions } from "../../data/gameTheme";
+import {
+  ChessGameType,
+  ChessPiece,
+  Configuration,
+  gameTheme,
+} from "../../types/piece";
+import {
+  GamePieceOptions,
+  GameThemeOptions,
+  GameTimeOPtions,
+} from "../../data/gameTheme";
 
 const Configurematch = () => {
   const [configuration, setConfiguration] = useState<Configuration>({
@@ -20,6 +29,10 @@ const Configurematch = () => {
   const handlePieceChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const piece = e.target.value as unknown as ChessPiece;
     setConfiguration((prev) => ({ ...prev, piece }));
+  };
+  const handleGameChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const time = e.target.value as unknown as ChessGameType;
+    setConfiguration((prev) => ({ ...prev, time }));
   };
   return (
     <div className="flex flex-col gap-6 justify-center">
@@ -75,7 +88,17 @@ const Configurematch = () => {
       </div>
       <div className="flex flex-col gap-2">
         <p className="cutive text-lg">I want to play for</p>
-        <Input type="number" />
+        <Select
+          defaultSelectedKeys={"all"}
+          value={configuration.time}
+          label="Choose game"
+          className=""
+          onChange={handleGameChange}
+        >
+          {GameTimeOPtions.map((theme) => (
+            <SelectItem key={theme.key}>{theme.label}</SelectItem>
+          ))}
+        </Select>
       </div>
     </div>
   );

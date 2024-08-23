@@ -77,11 +77,8 @@ export default function Playercard({ username, profilePic }: SocketUser) {
                 <Configurematch />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
+                <Button color="secondary" onPress={onClose}>
+                  Challenge ⚔️
                 </Button>
               </ModalFooter>
             </>
