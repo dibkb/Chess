@@ -24,6 +24,14 @@ class SocketManager {
   public removeUser(id: string) {
     this.online.delete(id);
   }
+
+  public getUserFromSocket(socket: string) {
+    for (const [user_id, socket_id] of this.online) {
+      if (socket_id === socket) {
+        return user_id;
+      }
+    }
+  }
   // connect user
   public connectUser(id: string, socket: string): void {
     this.online.set(id, socket);

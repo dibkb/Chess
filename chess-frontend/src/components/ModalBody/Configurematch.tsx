@@ -75,7 +75,7 @@ const Configurematch = ({
         </Select>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="cutive text-lg">I want to plain with</p>
+        <p className="cutive text-lg">I want to play with</p>
         <Select
           defaultSelectedKeys={"all"}
           value={configuration["piece"]}
@@ -88,7 +88,7 @@ const Configurematch = ({
         </Select>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="cutive text-lg">I want to play for</p>
+        <p className="cutive text-lg">I want to play the game</p>
         <Select
           defaultSelectedKeys={"all"}
           value={configuration.time}

@@ -20,12 +20,7 @@ import { Configurematch } from "./ModalBody/Configurematch";
 import { useSocketStore } from "../store/auth";
 import { SocketMessage } from "../types/socket";
 
-export default function Playercard({
-  username,
-  profilePic,
-  socketId,
-  id,
-}: SocketUser) {
+export default function Playercard({ username, profilePic, id }: SocketUser) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { socket } = useSocketStore();
   const [configuration, setConfiguration] = useState<Configuration>({

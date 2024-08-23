@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { useAuthStore, useMessageStore, useSocketStore } from "./store/auth";
 import { OnlinePlayers, SocketMessage } from "./types/socket";
 import {
+  Avatar,
   Button,
+  cn,
   Modal,
   ModalBody,
   ModalContent,
@@ -20,6 +22,8 @@ import { fetchUserData } from "./api/fetchData";
 import { Chat } from "./types/chat";
 import { Game } from "./screens/Game";
 import { ApppageModal } from "./components/ModalBody/ApppageModal";
+import { ChallengePayload } from "./types/piece";
+import { ChallengerDetails } from "./components/ChallengerDetails";
 
 function App() {
   const navigate = useNavigate();
@@ -32,6 +36,7 @@ function App() {
   const [modalType, setModalType] = useState<
     SocketMessage.LogoutUser | SocketMessage.Challenge
   >();
+  const [challengePayload, setChallengePayload] = useState<ChallengePayload>();
   useEffect(() => {
     if (isLoggedIn) connect();
     return () => disconnect();
@@ -56,9 +61,9 @@ function App() {
         addMessage(newMessage);
       });
       // socket--challenge
-      socket.on(SocketMessage.Challenge, (data) => {
+      socket.on(SocketMessage.Challenge, (data: ChallengePayload) => {
         // TODO :render modal
-        console.log(data);
+        setChallengePayload(data);
         setModalType(SocketMessage.Challenge);
         onOpen();
       });
@@ -111,7 +116,7 @@ function App() {
           </ModalContent>
         </Modal>
       )}
-      {modalType === SocketMessage.Challenge && (
+      {modalType === SocketMessage.Challenge && challengePayload && (
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -124,7 +129,9 @@ function App() {
             {(onClose) => (
               <>
                 <ModalHeader className="flex flex-col gap-1"></ModalHeader>
-                <ModalBody></ModalBody>
+                <ModalBody>
+                  <ChallengerDetails {...challengePayload} />
+                </ModalBody>
                 <ModalFooter>
                   <Button
                     color="success"
@@ -148,9 +155,3 @@ function App() {
 }
 
 export default App;
-
-interface ModalContent {
-  Header: React.ReactNode;
-  Body: React.ReactNode;
-  Footer: React.ReactNode;
-}

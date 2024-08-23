@@ -40,10 +40,17 @@ interface Configuration {
   // time in seconds
   time: ChessGameType;
 }
+interface ChallengePayload extends Configuration {
+  challenger: {
+    socketId: string;
+    userId: string;
+  };
+}
 type ChessGameType = "Flash Chess" | "Rapid Rumble" | "Zen Chess";
 export {
   type gameTheme,
   type ChessPiece,
   type Configuration,
   type ChessGameType,
+  type ChallengePayload,
 };

@@ -74,9 +74,13 @@ io.on("connection", (socket) => {
     const challengedUser = data.opponent;
     const challengedSocket =
       SocketManagerInstance.getUserSocket(challengedUser);
-    if (challengedSocket) {
+    const challengerUser = SocketManagerInstance.getUserFromSocket(socket.id);
+    if (challengedSocket && challengerUser) {
       io.to(challengedSocket).emit(Socket.Challenge, {
-        challenger: socket.id,
+        challenger: {
+          socketId: socket.id,
+          userId: challengerUser,
+        },
         ...data.configuration,
       });
     }
