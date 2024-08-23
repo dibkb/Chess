@@ -23,6 +23,7 @@ interface PieceSelect {
   label: ChessPiece;
 }
 export const GamePieceOptions: PieceSelect[] = [
+  { key: "Classic", label: "Classic" },
   { key: "Astrals", label: "Astrals" },
   { key: "Spirits", label: "Spirits" },
   { key: "Norsemen", label: "Norsemen" },
