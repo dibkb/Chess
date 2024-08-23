@@ -61,7 +61,7 @@ const LobbyChat = () => {
         <AvatarGroupPreview />
       </CardHeader>
       <Divider />
-      <CardBody className="h-[600px] relative overflow-y-scroll p-0">
+      <CardBody className="h-[60vh] relative overflow-y-scroll p-0">
         <div
           className="flex flex-col gap-3 w-full max-h-full absolute bottom-16 p-6 overflow-scroll"
           ref={messagesEndRef}
