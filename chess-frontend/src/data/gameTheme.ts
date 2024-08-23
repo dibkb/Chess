@@ -1,4 +1,4 @@
-import { ChessPiece, type gameTheme } from "../types/piece";
+import { ChessGameType, ChessPiece, type gameTheme } from "../types/piece";
 
 interface GameSelect {
   key: gameTheme;
@@ -31,4 +31,13 @@ export const GamePieceOptions: PieceSelect[] = [
   { key: "Norsemen", label: "Norsemen" },
   { key: "Mythicons", label: "Mythicons" },
   { key: "Gothic", label: "Gothic" },
+];
+interface TimeSelect {
+  key: ChessGameType;
+  label: string;
+}
+export const GameTimeOPtions: TimeSelect[] = [
+  { key: "Flash Chess", label: "Flash Chess (3 minutes)" },
+  { key: "Rapid Rumble", label: "Rapid Rumble (10 minutes)" },
+  { key: "Zen Chess", label: "Zen Chess (unlimited time)" },
 ];

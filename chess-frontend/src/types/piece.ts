@@ -33,4 +33,17 @@ type ChessPiece =
   | "Norsemen"
   | "Mythicons"
   | "Gothic";
-export { type gameTheme, type ChessPiece };
+interface Configuration {
+  color: "w" | "b";
+  venue: gameTheme;
+  piece: ChessPiece;
+  // time in seconds
+  time: ChessGameType;
+}
+type ChessGameType = "Flash Chess" | "Rapid Rumble" | "Zen Chess";
+export {
+  type gameTheme,
+  type ChessPiece,
+  type Configuration,
+  type ChessGameType,
+};

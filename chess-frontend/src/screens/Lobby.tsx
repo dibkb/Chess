@@ -4,10 +4,12 @@ import Playercard from "../components/Playercard";
 import { useState } from "react";
 import { LobbyChat } from "../components/LobbyChat";
 import { useSocketStore } from "../store/auth";
+import { LobbyOnline } from "../components/LobbyOnline";
 
 export default function Lobby() {
   const [selected, setSelected] = useState<selected>("lobby");
   const { onlineUsers } = useSocketStore((state) => state);
+
   return (
     <div className="mt-4 flex flex-col gap-8">
       <div className="flex flex-col lg:flex-row items-center gap-4 justify-between">
@@ -39,15 +41,7 @@ export default function Lobby() {
         onSelectionChange={(key) => setSelected(key as selected)}
       >
         <Tab key="lobby" title="Lobby">
-          {onlineUsers ? (
-            <main className="grid gap-6 grid-fit">
-              {Array.from(onlineUsers.entries()).map(([id, socketUser]) => {
-                return <Playercard key={id} {...socketUser} />;
-              })}
-            </main>
-          ) : (
-            "No players online"
-          )}
+          <LobbyOnline />
         </Tab>
         <Tab key="chat" title="Chat">
           <LobbyChat />
