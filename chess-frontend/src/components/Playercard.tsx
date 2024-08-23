@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  cn,
   Image,
   Modal,
   ModalBody,
@@ -18,9 +17,30 @@ import { SocketUser } from "../types/zustand";
 import { useState } from "react";
 import { Configuration } from "../types/piece";
 import { Configurematch } from "./ModalBody/Configurematch";
+import { useSocketStore } from "../store/auth";
+import { SocketMessage } from "../types/socket";
 
-export default function Playercard({ username, profilePic }: SocketUser) {
+export default function Playercard({
+  username,
+  profilePic,
+  socketId,
+}: SocketUser) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { socket } = useSocketStore();
+  const [configuration, setConfiguration] = useState<Configuration>({
+    color: "w",
+    venue: "Milan",
+    piece: "Classic",
+    time: "Rapid Rumble",
+  });
+  function challengePlayer() {
+    if (socket) {
+      socket.emit(SocketMessage.Challenge, {
+        opponent: socketId,
+        configuration,
+      });
+    }
+  }
   return (
     <>
       <Card className="py-4 w-full">
@@ -74,10 +94,19 @@ export default function Playercard({ username, profilePic }: SocketUser) {
                 Configure match
               </ModalHeader>
               <ModalBody>
-                <Configurematch />
+                <Configurematch
+                  configuration={configuration}
+                  setConfiguration={setConfiguration}
+                />
               </ModalBody>
               <ModalFooter>
-                <Button color="secondary" onPress={onClose}>
+                <Button
+                  color="secondary"
+                  onPress={() => {
+                    challengePlayer();
+                    onClose();
+                  }}
+                >
                   Challenge ⚔️
                 </Button>
               </ModalFooter>

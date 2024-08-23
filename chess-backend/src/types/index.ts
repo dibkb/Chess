@@ -15,4 +15,15 @@ interface OnlinePlayer {
   id: string;
   socket_id: string;
 }
-export { Types, OnlinePlayer, Socket };
+interface Configuration {
+  color: "w" | "b";
+  venue: string;
+  piece: string;
+  // time in seconds
+  time: string;
+}
+interface ChallengeType {
+  opponent: string;
+  configuration: Configuration;
+}
+export { Types, OnlinePlayer, Socket, ChallengeType };

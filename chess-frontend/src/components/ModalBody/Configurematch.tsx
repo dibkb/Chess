@@ -1,5 +1,5 @@
-import { cn, Input, Select, SelectItem } from "@nextui-org/react";
-import React, { ChangeEvent, useState } from "react";
+import { cn, Select, SelectItem } from "@nextui-org/react";
+import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import {
   ChessGameType,
   ChessPiece,
@@ -12,13 +12,14 @@ import {
   GameTimeOPtions,
 } from "../../data/gameTheme";
 
-const Configurematch = () => {
-  const [configuration, setConfiguration] = useState<Configuration>({
-    color: "w",
-    venue: "Milan",
-    piece: "Classic",
-    time: "Rapid Rumble",
-  });
+interface ConfigurematchInterface {
+  configuration: Configuration;
+  setConfiguration: Dispatch<SetStateAction<Configuration>>;
+}
+const Configurematch = ({
+  configuration,
+  setConfiguration,
+}: ConfigurematchInterface) => {
   const selectColorHandler = (color: Configuration["color"]) => {
     setConfiguration((prev) => ({ ...prev, color }));
   };

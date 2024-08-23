@@ -4,7 +4,7 @@ import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import helmet from "helmet";
 import { router } from "./routes";
-import { Socket } from "./types";
+import { ChallengeType, Socket } from "./types";
 import { SocketManagerInstance } from "./SocketManger";
 const PORT = 3000;
 
@@ -70,8 +70,8 @@ io.on("connection", (socket) => {
     });
   });
   // challenge
-  socket.on(Socket.Challenge, ({ user_id, opponent_id }) => {
-    socket.broadcast.emit(Socket.Challenge, { user_id, opponent_id });
+  socket.on(Socket.Challenge, (data: ChallengeType) => {
+    io.to(data.opponent).emit(Socket.Challenge, data.configuration);
   });
   // disconnect
   socket.on("disconnect", () => {
