@@ -95,7 +95,6 @@ const signInUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log("query", req.query.userId);
     const userIds = userIdSchema.parse(req.query.userId);
     if (!userIds) {
       return res.status(401).json("No userId provided");

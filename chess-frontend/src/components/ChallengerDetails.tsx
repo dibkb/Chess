@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ChallengePayload } from "../types/piece";
 import { axiosInstance } from "../api/apiInstance";
 import { User } from "../types/zustand";
+import { playNotification } from "../sounds";
 
 export const ChallengerDetails = ({
   challenger,
@@ -21,12 +22,18 @@ export const ChallengerDetails = ({
       setChallengerProfile(data);
     }
     getUserInfo();
+    //   play---notification
+    playNotification();
   }, []);
-  console.log(challengerProfile);
   return (
     <main className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <Avatar src={challengerProfile?.profilePic} size="lg" />
+        <Avatar
+          src={challengerProfile?.profilePic}
+          size="lg"
+          radius="lg"
+          isBordered
+        />
         <p className="font-semibold">
           {challengerProfile?.username} challenged you{" "}
         </p>

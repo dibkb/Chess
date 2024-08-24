@@ -134,6 +134,15 @@ function App() {
                 </ModalBody>
                 <ModalFooter>
                   <Button
+                    color="danger"
+                    variant="light"
+                    onPress={() => {
+                      onClose();
+                    }}
+                  >
+                    Reject
+                  </Button>
+                  <Button
                     color="success"
                     variant="solid"
                     onPress={() => {
