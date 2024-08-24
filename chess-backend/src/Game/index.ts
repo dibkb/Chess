@@ -1,11 +1,21 @@
+import { Socket } from "socket.io";
+import { Chess } from "chess.js";
 class Game {
-  private static instance: Game;
-
-  public static getInstance() {
-    if (!this.instance) this.instance = new Game();
-    return this.instance;
+  public playerWhite: Socket;
+  public playerBlack: Socket;
+  private board: Chess;
+  private moveCount: number;
+  constructor(playerWhite: Socket, playerBlack: Socket) {
+    this.playerWhite = playerWhite;
+    this.playerBlack = playerBlack;
+    this.board = new Chess();
+    this.moveCount = 0;
+    //----initialize game
+    this.initializePlayers();
+  }
+  private sendMessage(socket: Socket, type: MessageType, payload: any): void {
+    socket.send(JSON.stringify({ type, payload }));
   }
 }
 
-const GameInstance = Game.getInstance();
-export { GameInstance };
+export { Game };
