@@ -25,10 +25,19 @@ const handleZodParsingError = (error: unknown, res: Response) => {
   }
 };
 const userIdSchema = z.union([z.string(), z.array(z.string())]);
+
+const moveSchema = z.object({
+  from: z.string(),
+  to: z.string(),
+  promotion: z.string().optional(),
+});
+type moveBody = z.infer<typeof moveSchema>;
 export {
   signUpSchema,
+  moveSchema,
   type SignUpBody,
   type SignInBody,
+  type moveBody,
   signInSchema,
   handleZodParsingError,
   userIdSchema,
